@@ -9,14 +9,15 @@ $(function(){
 
     function UserTable() {
         this.update = function () {
-            //let postData = {userId: "123", first_name: "Poro", last_name: "Fessor", email: "poro@fessor.com"};
-            postData = $.get("admin/list");
-            this.show(postData);
+            self = this;
+            $.getJSON("admin/list",function (data) {
+                self.show(data);
+            });
         }
 
         this.show = function (_tableData) {
             pageOrchestrator.refresh();
-            getTemplate('admin',_tableData).done(function(data){
+            getTemplate( "admin",_tableData).done(function(data){
                 $('#userTable').append(data)
             })
         }

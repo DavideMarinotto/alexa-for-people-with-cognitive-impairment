@@ -16,8 +16,6 @@ Admin.createUser = (newUser, result) => {
             result(err, null);
             return;
         }
-
-        console.log("created user: ", {...newUser });
         result(null, {...newUser });
     });
 };
@@ -29,7 +27,6 @@ Admin.findAllUsers = result => {
                 result(err, null);
                 return;
             }
-            console.log("found users: ", res);
             result(null, res);
         });
 };
