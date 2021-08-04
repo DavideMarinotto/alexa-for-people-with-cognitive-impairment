@@ -21,7 +21,7 @@ Admin.createUser = (newUser, result) => {
 };
 
 Admin.findAllUsers = result => {
-    sql.query("select * from proginginf.user", (err, res) => {
+    sql.query("select idUser, Surname, Name, Mail from proginginf.user where isAdmin=0", (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
