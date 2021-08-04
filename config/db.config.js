@@ -1,6 +1,6 @@
 module.exports = {
     HOST: "localhost",
-    USER: "root",
-    PASSWORD: "290763Su",
+    USER: "TIWuser",
+    PASSWORD: "TIWpass",
     DB: "proginginf"
 };
