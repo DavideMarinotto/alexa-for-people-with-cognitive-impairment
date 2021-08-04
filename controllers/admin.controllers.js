@@ -27,3 +27,15 @@ exports.createUser = (req, res) => {
         else res.send(data);
     });
 };
+
+// Create and Save a new Customer
+exports.findAllUsers = (req, res) => {
+    Admin.findAllUsers( (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the New User."
+            });
+        else res.send(data);
+    });
+};

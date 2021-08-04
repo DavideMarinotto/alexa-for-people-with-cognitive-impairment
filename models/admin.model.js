@@ -22,4 +22,16 @@ Admin.createUser = (newUser, result) => {
     });
 };
 
+Admin.findAllUsers = result => {
+    sql.query("select * from proginginf.user", (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            console.log("found users: ", res);
+            result(null, res);
+        });
+};
+
 module.exports = Admin;

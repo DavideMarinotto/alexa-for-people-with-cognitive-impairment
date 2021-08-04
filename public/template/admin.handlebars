@@ -8,9 +8,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr userId="{{userId}}">
-        <td>{{first_name}} {{last_name}}</td>
-        <td>{{email}}</td>
+    {{#each data}}
+    <tr idUser="{{idUser}}">
+        <td>{{Name}} {{Surname}}</td>
+        <td>{{Mail}}</td>
         <td>
             <div class="btn-group" role="group">
                 <button type="button" class="btn btn-primary">Modify</button>
@@ -19,9 +20,6 @@
         </td>
         <td><button type="button" class="btn btn-primary">Login</button></td>
     </tr>
-    <tr>
-        <td>{{first_name}} {{last_name}}</td>
-        <td>{{email}}</td>
-    </tr>
+    {{/each}}
     </tbody>
 </table>

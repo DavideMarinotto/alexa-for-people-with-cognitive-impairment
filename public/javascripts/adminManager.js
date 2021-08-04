@@ -9,7 +9,8 @@ $(function(){
 
     function UserTable() {
         this.update = function () {
-            let postData = {userId: "123", first_name: "Poro", last_name: "Fessor", email: "poro@fessor.com"};
+            //let postData = {userId: "123", first_name: "Poro", last_name: "Fessor", email: "poro@fessor.com"};
+            postData = $.get("admin/list");
             this.show(postData);
         }
 

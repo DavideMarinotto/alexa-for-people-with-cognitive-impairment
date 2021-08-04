@@ -6,3 +6,5 @@ function getTemplate( name,data){
     });
     return d.promise();
 }
+
+
