@@ -9,8 +9,8 @@ const Admin = function(admin) {
 };
 
 Admin.createUser = (newUser, result) => {
-    sql.query("insert into proginginf.user(idUser, Surname, Name, Mail) values(?,?,?,?)",
-        [newUser.idUser,newUser.surname,newUser.name,newUser.email], (err, res) => {
+    sql.query("insert into proginginf.user(Surname, Name, Mail, Password) values(?,?,?,?)",
+        [newUser.surname,newUser.name,newUser.email, newUser.password], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
