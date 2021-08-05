@@ -1,5 +1,6 @@
 const Admin = require("../models/admin.model");
 const Standard = require("../models/admin.model");
+var bcrypt = require("bcryptjs");
 
 // Create and Save a new Customer
 exports.createUser = (req, res) => {
@@ -9,15 +10,13 @@ exports.createUser = (req, res) => {
             message: "Content can not be empty!"
         });
     }
-
-    // Constructor
+    let hash = bcrypt.hashSync(req.body.password, 8);
     const user = new Standard({
         email: req.body.email,
         name: req.body.name,
         surname: req.body.surname,
-        password: req.body.password
     });
-
+    user.password = hash;
     Admin.createUser(user, (err, data) => {
         if (err)
             res.status(500).send({

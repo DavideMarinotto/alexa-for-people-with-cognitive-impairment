@@ -45,33 +45,14 @@ $(function(){
         this.show = function () {
             self = this;
             getTemplate( "admin_modal_newUser",null).done(function(data){
-                $("#id_addUserModal").append(data).show();
-                $('#id_sendNewUser').click(function() {
-                    var settings = {
-                        "url": "admin/createNewUser",
-                        "method": "POST",
-                        "timeout": 0,
-                        "headers": {
-                            "Content-Type": "application/x-www-form-urlencoded"
-                        },
-                        "data": {
-                            "email": $("#id_Mail" ).val(),
-                            "name": $("#id_Name" ).val(),
-                            "surname": $("#id_Surname" ).val(),
-                            "password": $("#id_Password" ).val()
-                        }
-                    };
-                    $.ajax(settings).done(function (response) {
-                        b2home();
-                    });
-                });
+                $("#id_modalWindow").append(data).show();
                 $('.modalClose').click(function() {
                     addUserModal.reset();
                 });
             })
         }
         this.reset = function () {
-            $("#id_addUserModal").empty().hide();
+            $("#id_modalWindow").empty().hide();
     }
     }
 
