@@ -67,6 +67,7 @@ isStandard = (req, res, next) => {
 };
 
 const authJwt = {
+    isVerify: isVerify,
     isAdmin: isAdmin,
     isStandard: isStandard,
 };
