@@ -31,4 +31,26 @@ Admin.findAllUsers = result => {
         });
 };
 
+Admin.findUserById = (_idUser, result) => {
+    sql.query("select * from proginginf.user where idUser=?",_idUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+Admin.deleteUserById = (_idUser, result) => {
+    sql.query("delete from proginginf.user where idUser=?",_idUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
 module.exports = Admin;

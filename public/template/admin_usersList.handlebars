@@ -1,0 +1,39 @@
+
+<div class="row">
+    <div class="col text-center">
+        <h1 class="text-center">Users List</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col mb-2">
+        <button class="btn btn-primary" id="id_addUserBtn"><i class="fas fa-user-plus"></i> Add New User</button>
+    </div>
+</div>
+<div class="row bg-white rounded shadow-lg">
+    <table class="table table-striped">
+        <thead class="thead">
+        <tr>
+            <th>User name</th>
+            <th>Email</th>
+            <th>Operation</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        {{#each this}}
+        <tr idUser="{{idUser}}">
+            <td>{{Name}} {{Surname}}</td>
+            <td>{{Mail}}</td>
+            <td>
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger removeUserBtn"><i class="fas fa-trash-alt"></i></button>
+                </div>
+            </td>
+            <td><button type="button" class="btn btn-primary"><i class="fas fa-user"></i> Login</button></td>
+        </tr>
+        {{/each}}
+        </tbody>
+    </table>
+</div>
+

@@ -6,6 +6,7 @@ const Standard = function(standard) {
     this.email = standard.email;
     this.name = standard.name;
     this.surname = standard.surname;
+    this.password = standard.password;
 };
 
 module.exports = Standard;

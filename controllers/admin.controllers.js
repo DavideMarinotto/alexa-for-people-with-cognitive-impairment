@@ -12,10 +12,10 @@ exports.createUser = (req, res) => {
 
     // Constructor
     const user = new Standard({
-        idUser: req.body.idUser,
         email: req.body.email,
         name: req.body.name,
-        surname: req.body.surname
+        surname: req.body.surname,
+        password: req.body.password
     });
 
     Admin.createUser(user, (err, data) => {
@@ -34,7 +34,33 @@ exports.findAllUsers = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the New User."
+                    err.message || "Some error occurred while find Users."
+            });
+        else res.send(data);
+    });
+};
+
+// Create and Save a new Customer
+exports.findUserById = (req, res) => {
+    console.log(req.params.idUser);
+    Admin.findUserById(req.params.idUser, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
+            });
+        else res.send(data);
+    });
+};
+
+// Create and Save a new Customer
+exports.deleteUserById = (req, res) => {
+    console.log(req.params.idUser);
+    Admin.deleteUserById(req.params.idUser, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
             });
         else res.send(data);
     });
