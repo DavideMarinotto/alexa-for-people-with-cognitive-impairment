@@ -64,4 +64,16 @@ Admin.resetPassword = (user, result) => {
     });
 };
 
+Admin.modifyUser = (user, result) => {
+    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",
+        [user.surname,user.name,user.email, user.idUser], (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        });
+};
+
 module.exports = Admin;

@@ -23,7 +23,7 @@ exports.createUser = (req, res) => {
                 message:
                     err.message || "Some error occurred while creating the New User."
             });
-        else res.send(data);
+        else res.redirect("/admin");
     });
 };
 
@@ -41,7 +41,6 @@ exports.findAllUsers = (req, res) => {
 
 // Create and Save a new Customer
 exports.findUserById = (req, res) => {
-    console.log(req.params.idUser);
     Admin.findUserById(req.params.idUser, (err, data) => {
         if (err)
             res.status(500).send({
@@ -54,7 +53,6 @@ exports.findUserById = (req, res) => {
 
 // Create and Save a new Customer
 exports.deleteUserById = (req, res) => {
-    console.log(req.params.idUser);
     Admin.deleteUserById(req.params.idUser, (err, data) => {
         if (err)
             res.status(500).send({
@@ -66,7 +64,6 @@ exports.deleteUserById = (req, res) => {
 };
 
 exports.resetPassword = (req, res) => {
-    console.log(req.body.password);
     let hash = bcrypt.hashSync(req.body.password, 8);
     Admin.resetPassword({idUser: req.params.idUser, password: hash}, (err, data) => {
         if (err)
@@ -74,6 +71,23 @@ exports.resetPassword = (req, res) => {
                 message:
                     err.message || "Some error occurred while find the User."
             });
-        else res.send(data);
+        else res.redirect("/admin");
+    });
+};
+
+exports.modifyUser = (req, res) => {
+    const user = new Standard({
+        idUser: req.params.idUser,
+        email: req.body.email,
+        name: req.body.name,
+        surname: req.body.surname,
+    });
+    Admin.modifyUser(user, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
+            });
+        else res.redirect("/admin");
     });
 };

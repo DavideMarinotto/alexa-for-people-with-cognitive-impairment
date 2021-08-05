@@ -1,6 +1,7 @@
 $(function(){
     let userTable,
         addUserModal,
+        modifyUserModal,
         resetPasswordModal,
         pageOrchestrator = new PageOrchestrator();
 
@@ -25,6 +26,9 @@ $(function(){
                 });
                 $('.removeUserBtn').click(function() {
                     userTable.deleteUser( $(this).parent().parent().parent().attr("idUser") );
+                });
+                $('.modifyUserBtn').click(function() {
+                    modifyUserModal.show( $(this).parent().parent().parent().attr("idUser") );
                 });
                 $('.resetUserPwBtn').click(function() {
                     resetPasswordModal.show( $(this).parent().parent().attr("idUser") );
@@ -57,6 +61,24 @@ $(function(){
         }
         this.reset = function () {
             $("#id_modalWindow").empty().hide();
+        }
+    }
+
+    function ModifyUserModal(_target) {
+        this.show = function (_id) {
+            self = this;
+            getTemplate( "admin_modal_modifyUser",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    addUserModal.reset();
+                });
+                $('.sendModify').click(function() {
+                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _id + '/modify').submit();
+                });
+            })
+        }
+        this.reset = function () {
+            $("#id_modalWindow").empty().hide();
     }
     }
 
@@ -68,7 +90,6 @@ $(function(){
                 $('.modalClose').click(function() {
                     resetPasswordModal.reset();
                 });
-
                 $('.sendResetPassword').click(function() {
                     $("#id_resetPasswordForm").attr('action', '/admin/user/' + _id + '/reset').submit();
                 });
@@ -84,6 +105,7 @@ $(function(){
         this.start = function () {
             userTable = new UserTable();
             addUserModal = new AddUserModal();
+            modifyUserModal = new ModifyUserModal();
             resetPasswordModal = new ResetUserPassword();
 
             getTemplate( "header",null).done(function(data){
