@@ -53,4 +53,15 @@ Admin.deleteUserById = (_idUser, result) => {
     });
 };
 
+Admin.resetPassword = (user, result) => {
+    sql.query("update proginginf.user set Password=? where idUser=?", [user.password, user.idUser], (err, res) => {
+       if (err) {
+           console.log("error: ", err);
+           result(err, null);
+           return;
+       }
+       result(null, res);
+    });
+};
+
 module.exports = Admin;

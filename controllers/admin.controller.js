@@ -64,3 +64,16 @@ exports.deleteUserById = (req, res) => {
         else res.send(data);
     });
 };
+
+exports.resetPassword = (req, res) => {
+    console.log(req.body.password);
+    let hash = bcrypt.hashSync(req.body.password, 8);
+    Admin.resetPassword({idUser: req.params.idUser, password: hash}, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
+            });
+        else res.send(data);
+    });
+};

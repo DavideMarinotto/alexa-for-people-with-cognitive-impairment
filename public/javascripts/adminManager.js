@@ -1,6 +1,7 @@
 $(function(){
     let userTable,
         addUserModal,
+        resetPasswordModal,
         pageOrchestrator = new PageOrchestrator();
 
     $(function() {
@@ -24,6 +25,9 @@ $(function(){
                 });
                 $('.removeUserBtn').click(function() {
                     userTable.deleteUser( $(this).parent().parent().parent().attr("idUser") );
+                });
+                $('.resetUserPwBtn').click(function() {
+                    resetPasswordModal.show( $(this).parent().parent().attr("idUser") );
                 });
             })
         }
@@ -56,11 +60,31 @@ $(function(){
     }
     }
 
+    function ResetUserPassword(_target) {
+        this.show = function (_id) {
+            self = this;
+            getTemplate( "admin_modal_resetPassword",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    resetPasswordModal.reset();
+                });
+
+                $('.sendResetPassword').click(function() {
+                    $("#id_resetPasswordForm").attr('action', '/admin/user/' + _id + '/reset').submit();
+                });
+            })
+        }
+        this.reset = function () {
+            $("#id_modalWindow").empty().hide();
+        }
+    }
+
 
     function PageOrchestrator() {
         this.start = function () {
             userTable = new UserTable();
             addUserModal = new AddUserModal();
+            resetPasswordModal = new ResetUserPassword();
 
             getTemplate( "header",null).done(function(data){
                 $('header').append(data);
@@ -69,6 +93,7 @@ $(function(){
         this.refresh = function () {
             userTable.reset();
             addUserModal.reset();
+            resetPasswordModal.reset();
         }
     }
 

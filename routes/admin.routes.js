@@ -20,5 +20,5 @@ router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);
 router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);
 router.delete('/user/:idUser',[authJwt.isAdmin],admin.deleteUserById);
-router.get('/user/:idUser/reset',[authJwt.isAdmin],admin.deleteUserById);
+router.post('/user/:idUser/reset',[authJwt.isAdmin],admin.resetPassword);
 module.exports = router;
