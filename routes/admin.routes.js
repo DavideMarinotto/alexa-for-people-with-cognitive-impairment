@@ -3,7 +3,7 @@ var router = express.Router();
 var path = require('path');
 
 var authJwt = require("../models/authJwt.model");
-var admin = require("../controllers/admin.controllers");
+var admin = require("../controllers/admin.controller");
 
 router.use(function(req, res, next) {
   res.header(

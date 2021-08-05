@@ -4,6 +4,8 @@ const sql = require("./db.js");
 const User = function(user) {
     this.idUser = user.idUser
     this.Mail = user.Mail;
+    this.Name = user.Name;
+    this.Surname = user.Surname;
     this.Password = user.Password;
     this.isAdmin = user.isAdmin;
 };

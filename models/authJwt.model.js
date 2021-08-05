@@ -1,6 +1,25 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
+isVerify = (req, res, next) => {
+    const token = req.cookies.access_token;
+
+    if (!token) {
+        return res.status(403).send({
+            message: "No token provided!"
+        });
+    }
+    try {
+        const data = jwt.verify(token, config.secret);
+        console.log(data);
+        req.userId = data. id;
+        req.userRole = data.role;
+        return next();
+    } catch {
+        return res.sendStatus(403);
+    }
+};
+
 isAdmin = (req, res, next) => {
     const token = req.cookies.access_token;
 
