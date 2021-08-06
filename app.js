@@ -7,6 +7,7 @@ var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin.routes');
 var standardRouter = require('./routes/standard');
 var authRouter = require('./routes/auth.routes');
+var scheduleRouter = require('./routes/schedule.routes');
 
 var app = express();
 
@@ -20,5 +21,6 @@ app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/standard', standardRouter);
 app.use('/auth', authRouter);
+app.use('/schedule', scheduleRouter);
 
 module.exports = app;
