@@ -1,37 +1,35 @@
 
 <div class="row">
     <div class="col text-center">
-        <h1 class="text-center">Users List</h1>
+        <h1 class="text-center">Patient List</h1>
     </div>
 </div>
 <div class="row">
     <div class="col mb-2">
-        <button class="btn btn-primary" id="id_addUserBtn"><i class="fas fa-user-plus"></i> Add New User</button>
+        <button class="btn btn-primary" id="id_addPatientBtn"><i class="fas fa-user-plus"></i> Add New Patient</button>
     </div>
 </div>
 <div class="row bg-white rounded shadow-lg">
     <table class="table table-striped">
         <thead class="thead">
         <tr>
-            <th>User name</th>
-            <th>Email</th>
+            <th>Patient name</th>
             <th>Operation</th>
             <th>Action</th>
         </tr>
         </thead>
         <tbody>
         {{#each this}}
-        <tr idUser="{{idUser}}">
+        <tr idpatient="{{idpatient}}">
             <td>{{Name}} {{Surname}}</td>
-            <td>{{Mail}}</td>
             <td>
                 <div class="btn-group" role="group">
-                    <button type="button" class="btn btn-primary modifyUserBtn"><i class="fas fa-pen"></i></button>
-                    <button type="button" class="btn btn-danger removeUserBtn"><i class="fas fa-trash-alt"></i></button>
+                    <button type="button" class="btn btn-primary modifyPatientBtn"><i class="fas fa-pen"></i></button>
+                    <button type="button" class="btn btn-danger removePatientBtn"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </td>
-            <td><button type="button" class="btn btn-primary"><i class="fas fa-user"></i> Login</button>
-           <button type="button" class="btn btn-danger resetUserPwBtn"> Reset Password</button></td>
+            <td><button type="button" class="btn btn-primary">Calendar</button>
+           </td>
         </tr>
         {{/each}}
         </tbody>

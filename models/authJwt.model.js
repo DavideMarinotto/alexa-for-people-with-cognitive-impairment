@@ -12,7 +12,7 @@ isVerify = (req, res, next) => {
     try {
         const data = jwt.verify(token, config.secret);
         console.log(data);
-        req.userId = data. id;
+        req.userId = data.id;
         req.userRole = data.role;
         return next();
     } catch {

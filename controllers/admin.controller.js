@@ -2,7 +2,6 @@ const Admin = require("../models/admin.model");
 const Standard = require("../models/standard.model");
 var bcrypt = require("bcryptjs");
 
-// Create and Save a new Customer
 exports.createUser = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -27,7 +26,6 @@ exports.createUser = (req, res) => {
     });
 };
 
-// Create and Save a new Customer
 exports.findAllUsers = (req, res) => {
     Admin.findAllUsers( (err, data) => {
         if (err)
@@ -51,7 +49,6 @@ exports.findUserById = (req, res) => {
     });
 };
 
-// Create and Save a new Customer
 exports.deleteUserById = (req, res) => {
     Admin.deleteUserById(req.params.idUser, (err, data) => {
         if (err)

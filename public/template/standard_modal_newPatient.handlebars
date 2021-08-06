@@ -1,13 +1,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Create a New User</h5>
+                <h5 class="modal-title">Create a New Patient</h5>
                 <button type="button" class="close modalClose" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form action="admin/createNewUser" id="id_newUserForm" method="post">
+                <form action="standard/patients" id="id_newPatientForm" method="post">
                     <div class="form-group">
                         <label for="Name">Name:</label><br>
                         <input class="form-control" type="text" id="id_Name" name="name" ><br>
@@ -17,7 +17,7 @@
                         <input class="form-control" type="text" id="id_idAlexa" name="idAlexa" ><br>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i>  Create New User</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i>  Create New Patient</button>
                         <button class="btn btn-danger modalClose"> Cancel </button>
                     </div>
                 </form>

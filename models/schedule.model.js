@@ -4,26 +4,26 @@ var CronJob = require('cron').CronJob;
 // constructor
 const Schedule = function(schedule) {
     this.idAlarm = schedule.idAlarm
-    this.idParent = schedule.idParent;
+    this.idPatient = schedule.idPatient;
     this.message = schedule.message;
     this.cron = schedule.cron;
     this.cronString = schedule.cronString;
 };
 
-Schedule.createAlarm = (newUser, result) => {
-    sql.query("insert into proginginf.user(Surname, Name, Mail, Password) values(?,?,?,?)",
-        [newUser.surname,newUser.name,newUser.email, newUser.password], (err, res) => {
+Schedule.createAlarm = (newAlarm, result) => {
+    sql.query("insert into proginginf.calendar(message, cron, cronString, idPatient) values(?,?,?,?)",
+        [newAlarm.message,newAlarm.cron,newAlarm.cronString, newAlarm.idPatient], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-        result(null, {...newUser });
+        result(null, {...newAlarm });
     });
 };
 
-Schedule.findAllUserAlarms = result => {
-    sql.query("select idUser, Surname, Name, Mail from proginginf.user where isAdmin=0", (err, res) => {
+Schedule.findAllPatientAlarms = (_idPatient, result) => {
+    sql.query("select message, cron, cronString from proginginf.calendar where idPatient=?",_idPatient, (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);

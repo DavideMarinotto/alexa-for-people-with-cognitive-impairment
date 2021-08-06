@@ -1,7 +1,6 @@
 const Schedule = require("../models/schedule.model");
 const Standard = require("../models/admin.model");
 
-// Create and Save a new Alarm
 exports.createAlarm = (req, res) => {
     // Validate request
     if (!req.body) {
@@ -25,7 +24,6 @@ exports.createAlarm = (req, res) => {
     });
 };
 
-// Create and Save a new Customer
 exports.findAllUserAlarms = (req, res) => {
     Schedule.findAllUserAlarms( (err, data) => {
         if (err)
@@ -37,7 +35,6 @@ exports.findAllUserAlarms = (req, res) => {
     });
 };
 
-// Create and Save a new Customer
 exports.findAlarmById = (req, res) => {
     Schedule.findAlarmById(req.params.idUser, (err, data) => {
         if (err)
@@ -49,7 +46,6 @@ exports.findAlarmById = (req, res) => {
     });
 };
 
-// Create and Save a new Customer
 exports.deleteAlarmById = (req, res) => {
     Schedule.deleteAlarmById(req.params.idAlarm, (err, data) => {
         if (err)

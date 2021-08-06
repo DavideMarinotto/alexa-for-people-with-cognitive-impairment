@@ -16,8 +16,6 @@ exports.signin = (req, res) => {
         if (!user) {
             return res.status(404).send({message: "User Not found."});
         }
-        console.log(bcrypt.hashSync(req.body.password, 8));
-        console.log(user.Password);
 
         var passwordIsValid = bcrypt.compareSync(
             req.body.password,
@@ -35,7 +33,7 @@ exports.signin = (req, res) => {
             role = "admin"
         }
         var path = '/'+role;
-        var token = jwt.sign({id: user.idUserd, role: role}, config.secret);
+        var token = jwt.sign({id: user.idUser, role: role}, config.secret);
 
         return res
             .cookie("access_token", token, {
