@@ -78,6 +78,48 @@ $(function(){
     }
     }
 
+    function AlarmTable() {
+        this.update = function (_id) {
+            var self = this;
+            $.ajax({
+                url: '/schedule/alarms/'+_id,
+                type: 'GET',
+                success: function(data) {
+                    console.log(data)
+                    pageOrchestrator.refresh();
+                    self.idPatient = _id;
+                    self.show(data);
+                }
+            });
+        }
+        this.show = function (_tableData) {
+            getTemplate( "schedule_alarmList",_tableData).done(function(data){
+                $('#patientTable').append(data);
+                $('#id_addAlarmBtn').click(function() {
+                    addAlarmModal.show();
+                });
+                $('.removeAlarmBtn').click(function() {
+                    alarmTable.deleteUser( $(this).parent().parent().parent().attr("idalarm") );
+                });
+                $('.modifyAlarmBtn').click(function() {
+                    modifyAlarmModal.show( $(this).parent().parent().parent().attr("idalarm") );
+                });
+            })
+        }
+        this.deleteUser = function (_id){
+            var self = this;
+            $.ajax({
+                url: '/schedule/alarm/'+_id,
+                type: 'DELETE',
+                success: function() {
+                    b2patient(self.idPatient);
+                }
+            });
+        }
+        this.reset = function () {
+            $('#patientTable').empty();
+        }
+    }
 
 
     function PageOrchestrator() {

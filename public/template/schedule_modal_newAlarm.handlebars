@@ -15,16 +15,21 @@
                         <input class="form-control" type="text" id="id_Surname" name="surname" ><br>
                         <label for="pattern">Choose time pattern:</label><br>
                         <select id="id_pattern" name="pattern">
+                            <option value="None">Select an option</option>
                             <option value="xMins">Every [X] Minutes</option>
                             <option value="xHours">Every [X] Hours</option>
                             <option value="everyDayAtX">Every Day at [XX]:[XX]</option>
                             <option value="onDayAtX">On [Sunday,Monday] at [XX]:[XX]</option>
                         </select>
-                        <label for="xMins">Minutes:</label>
-                        <input class="form-control" type="text" id="id_xMins" name="xMins" >
-                        <label for="xHours">Hours:</label>
-                        <input class="form-control" type="text" id="id_xHours" name="xHours" >
-
+                        <div id="id_xMins">
+                            <label for="xMins">Minutes:</label>
+                            <input class="form-control" type="text" id="id_xMinsInput" name="xMins" >
+                        </div>
+                        <div id="id_xHours">
+                            <label for="xHours">Hours:</label>
+                            <input class="form-control" type="text" id="id_xHoursInput" name="xHours" >
+                        </div>
+                        <div id="id_days">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="id_sunday" value="sunday">
                             <label class="form-check-label" for="id_sunday">Sunday</label>
@@ -52,6 +57,7 @@
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="id_saturday" value="saturday">
                             <label class="form-check-label" for="id_saturday">Saturday</label>
+                        </div>
                         </div>
 
                         <input type="hidden" id="id_cron" value="#">

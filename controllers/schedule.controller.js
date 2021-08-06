@@ -10,9 +10,10 @@ exports.createAlarm = (req, res) => {
     }
 
     const alarm = new Schedule({
-        idParent: req.body.idParent,
+        idPatient: req.body.idPatient,
         message: req.body.message,
         cron: req.body.cron,
+        cronString: req.body.cronString,
     });
     Schedule.createAlarm(alarm, (err, data) => {
         if (err)
@@ -24,12 +25,12 @@ exports.createAlarm = (req, res) => {
     });
 };
 
-exports.findAllUserAlarms = (req, res) => {
-    Schedule.findAllUserAlarms( (err, data) => {
+exports.findAllPatientAlarms = (req, res) => {
+    Schedule.findAllPatientAlarms( req.params.idPatient, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find Users."
+                    err.message || "Some error occurred while find the User."
             });
         else res.send(data);
     });
@@ -59,10 +60,10 @@ exports.deleteAlarmById = (req, res) => {
 
 exports.modifyAlarm = (req, res) => {
     const alarm = new Schedule({
-        idAlarm: req.body.idAlarm,
-        idParent: req.body.idParent,
+        idAlarm: req.params.idAlarm,
         message: req.body.message,
         cron: req.body.cron,
+        cronString: req.body.cronString,
     });
     Schedule.modifyAlarm(alarm, (err, data) => {
         if (err)
