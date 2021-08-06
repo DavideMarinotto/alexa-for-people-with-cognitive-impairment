@@ -1,5 +1,5 @@
 const Admin = require("../models/admin.model");
-const Standard = require("../models/admin.model");
+const Standard = require("../models/standard.model");
 var bcrypt = require("bcryptjs");
 
 // Create and Save a new Customer

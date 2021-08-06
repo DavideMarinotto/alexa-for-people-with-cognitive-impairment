@@ -7,7 +7,7 @@ router.get('/', [authJwt.isStandard],function(req, res, next) {
   res.sendFile(path.resolve('public/admin.html'));
 });
 router.post('/allarms',[authJwt.isStandard],schedule.createAlarm);
-router.get('/allarms',[authJwt.isStandard],schedule.findAllUserAlarms);
+router.get('/allarms',[authJwt.isStandard],schedule.findAllPatientAlarms);
 router.get('/allarm/:idAllarm',[authJwt.isStandard],schedule.findAlarmById);
 router.delete('/allarm/:idAllarm',[authJwt.isStandard],schedule.deleteAlarmById);
 router.post('/allarm/:idAllarm',[authJwt.isStandard],schedule.modifyAlarm);

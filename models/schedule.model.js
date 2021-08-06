@@ -33,8 +33,8 @@ Schedule.findAllUserAlarms = result => {
         });
 };
 
-Schedule.findAlarmById = (_idUser, result) => {
-    sql.query("select * from proginginf.user where idUser=?",_idUser, (err, res) => {
+Schedule.findAlarmById = (_idAlarm, result) => {
+    sql.query("select * from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -44,8 +44,8 @@ Schedule.findAlarmById = (_idUser, result) => {
     });
 };
 
-Schedule.deleteAlarmById = (_idUser, result) => {
-    sql.query("delete from proginginf.user where idUser=?",_idUser, (err, res) => {
+Schedule.deleteAlarmById = (_idAlarm, result) => {
+    sql.query("delete from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -55,9 +55,9 @@ Schedule.deleteAlarmById = (_idUser, result) => {
     });
 };
 
-Schedule.modifyAlarm = (user, result) => {
-    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",
-        [user.surname,user.name,user.email, user.idUser], (err, res) => {
+Schedule.modifyAlarm = (alarm, result) => {
+    sql.query("update proginginf.calendar set message=?, cron=?, cronString=? where idAlarm=?",
+        [alarm.message,alarm.cron,alarm.cronString,alarm.idAlarm], (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
