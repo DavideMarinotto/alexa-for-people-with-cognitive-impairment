@@ -21,7 +21,7 @@ exports.createAlarm = (req, res) => {
                 message:
                     err.message || "Some error occurred while creating the New User."
             });
-        else res.redirect("/admin");
+        else res.send(data);
     });
 };
 
@@ -37,7 +37,7 @@ exports.findAllPatientAlarms = (req, res) => {
 };
 
 exports.findAlarmById = (req, res) => {
-    Schedule.findAlarmById(req.params.idUser, (err, data) => {
+    Schedule.findAlarmById(req.params.idAlarm, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -71,7 +71,7 @@ exports.modifyAlarm = (req, res) => {
                 message:
                     err.message || "Some error occurred while find the User."
             });
-        else res.redirect("/admin");
+        else res.send({url: '/standard'});
     });
 };
 

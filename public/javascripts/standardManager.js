@@ -2,6 +2,9 @@ $(function(){
     let patientTable,
         addPatientModal,
         modifyPatientModal,
+        alarmTable,
+        addAlarmModal,
+        modifyAlarmModal,
         pageOrchestrator = new PageOrchestrator();
 
     $(function() {
@@ -28,6 +31,9 @@ $(function(){
                 });
                 $('.modifyPatientBtn').click(function() {
                     modifyPatientModal.show( $(this).parent().parent().parent().attr("idpatient") );
+                });
+                $('.calendarBtn').click(function() {
+                    alarmTable.update( $(this).parent().parent().attr("idpatient") );
                 });
             })
         }
@@ -121,12 +127,84 @@ $(function(){
         }
     }
 
+    function AddAlarmModal(_target) {
+        this.show = function () {
+            self = this;
+            getTemplate( "schedule_modal_newAlarm",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                var hider = function(){
+                    $("#id_xMins").hide();
+                    $("#id_xHours").hide();
+                    $("#id_days").hide();
+                };
+                hider();
+                $('#id_pattern').change(function() {
+                    if ($(this).val() === 'None'){
+                        hider();
+                    }
+                    if ($(this).val() === 'xMins'){
+                        hider();
+                        $("#id_xMins").show();
+                    }
+                    if ($(this).val() === 'xHours'){
+                        hider();
+                        $("#id_xHours").show();
+                    }
+                    if ($(this).val() === 'everyDayAtX'){
+                        hider();
+                        $("#id_xMins").show();
+                        $("#id_xHours").show();
+                    }
+                    if ($(this).val() === 'onDayAtX'){
+                        hider();
+                        $("#id_xMins").show();
+                        $("#id_xHours").show();
+                        $("#id_days").show();
+                    }
+                });
+                $('.modalClose').click(function() {
+                    addAlarmModal.reset();
+                });
+            })
+        }
+        this.reset = function () {
+            $("#id_modalWindow").empty().hide();
+        }
+    }
+
+    function ModifyAlarmModal(_target) {
+        this.show = function (_id) {
+            self = this;
+            getTemplate( "schedule_modal_modifyAlarm",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    modifyAlarmModal.reset();
+                });
+                $('.sendModify').click(function() {
+                    $("#id_modifyAlarmForm").attr('action', '/schedule/alarm/' + _id)
+                    .bind('ajaxSuccess', function(data){
+                        window.location = data.url;
+                        b2patient(alarmTable.idPatient);
+                    });
+                });
+            })
+        }
+        this.reset = function () {
+            $("#id_modalWindow").empty().hide();
+        }
+    }
+
+
 
     function PageOrchestrator() {
         this.start = function () {
             patientTable = new PatientTable();
             addPatientModal = new AddPatientModal();
             modifyPatientModal = new ModifyPatientModal();
+
+            alarmTable = new AlarmTable();
+            addAlarmModal = new AddAlarmModal();
+            modifyAlarmModal = new ModifyAlarmModal();
 
             getTemplate( "header",null).done(function(data){
                 $('header').append(data);
@@ -141,5 +219,9 @@ $(function(){
     function b2home(){
         pageOrchestrator.refresh();
         patientTable.update();
+    }
+    function b2patient(_id){
+        pageOrchestrator.refresh();
+        alarmTable.update(_id);
     }
 });

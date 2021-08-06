@@ -23,7 +23,7 @@ Schedule.createAlarm = (newAlarm, result) => {
 };
 
 Schedule.findAllPatientAlarms = (_idPatient, result) => {
-    sql.query("select message, cron, cronString from proginginf.calendar where idPatient=?",_idPatient, (err, res) => {
+    sql.query("select message, cron, cronString, idAlarm from proginginf.calendar where idPatient=?", _idPatient,(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -45,6 +45,7 @@ Schedule.findAlarmById = (_idAlarm, result) => {
 };
 
 Schedule.deleteAlarmById = (_idAlarm, result) => {
+    console.log(_idAlarm);
     sql.query("delete from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
