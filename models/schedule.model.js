@@ -18,7 +18,7 @@ Schedule.createAlarm = (newAlarm, result) => {
             result(err, null);
             return;
         }
-        sql.query("SELECT idAlarm FROM proginginf.calendar WHERE idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
+        sql.query("SELECT C.idAlarm, P.idAlexa FROM proginginf.calendar C, proginginf.patient P WHERE P.idpatient=C.idPatient AND idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
