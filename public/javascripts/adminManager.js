@@ -3,6 +3,7 @@ $(function(){
         addUserModal,
         modifyUserModal,
         resetPasswordModal,
+        myProfile,
         pageOrchestrator = new PageOrchestrator();
 
     $(function() {
@@ -60,7 +61,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
         }
     }
 
@@ -78,7 +79,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
     }
     }
 
@@ -96,7 +97,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
         }
     }
 
@@ -107,16 +108,23 @@ $(function(){
             addUserModal = new AddUserModal();
             modifyUserModal = new ModifyUserModal();
             resetPasswordModal = new ResetUserPassword();
+            myProfile = new MyProfile();
 
             getTemplate( "header",null).done(function(data){
                 $('header').append(data);
+                $('#id_profile').click(function() {
+                    myProfile.update();
+                });
             })
         }
         this.refresh = function () {
             userTable.reset();
-            addUserModal.reset();
-            resetPasswordModal.reset();
+            modalReset();
         }
+    }
+
+    function modalReset() {
+        $("#id_modalWindow").empty().hide();
     }
 
     function b2home(){

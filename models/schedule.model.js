@@ -24,7 +24,7 @@ Schedule.createAlarm = (newAlarm, result) => {
                 result(err, null);
                 return;
             }
-            Schedule.addCron(res[0].idAlarm.toString(),newAlarm.message,newAlarm.idPatient,newAlarm.cron);
+            Schedule.addCron(res[0].idAlarm.toString(),newAlarm.message,res[0].idAlexa,newAlarm.cron);
             result(null, {...newAlarm });
         });
     });
@@ -72,7 +72,16 @@ Schedule.modifyAlarm = (alarm, result) => {
                 result(err, null);
                 return;
             }
-            result(null, res);
+            sql.query("SELECT C.idPatient, P.idAlexa FROM proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient AND idAlarm=?", alarm.idAlarm, (err, secondRes) => {
+                if (err) {
+                    console.log("error: ", err);
+                    result(err, null);
+                    return;
+                }
+                Schedule.removeCron(alarm.idAlarm);
+                Schedule.addCron(alarm.idAlarm,alarm.message,secondRes[0].idAlexa,alarm.cron);
+                result(null, secondRes);
+            });
         });
 };
 

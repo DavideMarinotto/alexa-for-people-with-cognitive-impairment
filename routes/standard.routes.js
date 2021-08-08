@@ -15,6 +15,8 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res, next) {
   res.sendFile(path.resolve('public/standard.html'));
 });
+router.get('/profile',[authJwt.isStandard],standard.getProfile);
+router.post('/profile',[authJwt.isStandard],standard.modifyProfile);
 router.post('/patients',[authJwt.isStandard],standard.createPatient);
 router.get('/patients',[authJwt.isStandard],standard.findAllPatient);
 router.get('/patient/:idpatient',[authJwt.isStandard],standard.findPatientById);

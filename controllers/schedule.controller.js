@@ -71,6 +71,6 @@ exports.modifyAlarm = (req, res) => {
                 message:
                     err.message || "Some error occurred while find the User."
             });
-        else res.send({url: '/standard'});
+        res.send(data);
     });
 };

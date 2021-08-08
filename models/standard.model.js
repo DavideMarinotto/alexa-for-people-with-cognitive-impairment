@@ -9,6 +9,28 @@ const Standard = function(standard) {
     this.password = standard.password;
 };
 
+Standard.getProfile = (_idUser, result) => {
+    sql.query("select idUser, Surname, Name, Mail from proginginf.user where idUser=?",_idUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+Standard.modifyProfile = (user, result) => {
+    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",[user.surname, user.name, user.email, user.idUser], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
 Standard.createPatient = (newPatient, result) => {
     sql.query("insert into proginginf.patient(Surname, Name, idAlexa, iduser) values(?,?,?,?)",
         [newPatient.surname,newPatient.name,newPatient.idAlexa, newPatient.iduser], (err, res) => {

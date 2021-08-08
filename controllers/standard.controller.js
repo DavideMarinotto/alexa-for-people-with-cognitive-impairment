@@ -3,6 +3,39 @@ const Standard = require("../models/standard.model");
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
+exports.getProfile = (req, res) => {
+    const token = req.cookies.access_token;
+    const data = jwt.verify(token, config.secret);
+
+    Standard.getProfile(data.id, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the New Patient."
+            });
+        else res.send(data);
+    });
+};
+
+exports.modifyProfile = (req, res) => {
+    const token = req.cookies.access_token;
+    const data = jwt.verify(token, config.secret);
+
+    const user = new Standard({
+        idUser: data.id,
+        email: req.body.email,
+        name: req.body.name,
+        surname: req.body.surname,
+    });
+    Standard.modifyProfile(user, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while creating the New Patient."
+            });
+        else res.redirect("/standard");
+    });
+};
 exports.createPatient = (req, res) => {
     // Validate request
     if (!req.body) {

@@ -16,6 +16,8 @@ router.use(function(req, res, next) {
 router.get('/', [authJwt.isAdmin],function(req, res, next) {
   res.sendFile(path.resolve('public/admin.html'));
 });
+router.get('/profile',[authJwt.isAdmin],admin.getProfile);
+router.post('/profile',[authJwt.isAdmin],admin.modifyProfile);
 router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);
 router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);
