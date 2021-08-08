@@ -5,12 +5,39 @@ $(function(){
         alarmTable,
         addAlarmModal,
         modifyAlarmModal,
+        myProfile,
         pageOrchestrator = new PageOrchestrator();
 
     $(function() {
         pageOrchestrator.start();
         patientTable.update();
     });
+
+    function MyProfile() {
+        this.update = function () {
+            self = this;
+            $.getJSON("standard/profile",function (data) {
+                pageOrchestrator.refresh();
+                self.show(data);
+            });
+        }
+
+        this.show = function (_profileData) {
+            self = this;
+            console.log(_profileData);
+            getTemplate( "standard_modal_editProfile",_profileData[0]).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    myProfile.reset();
+                });
+            })
+        }
+
+        this.reset = function () {
+           pageOrchestrator.refresh();
+           patientTable.update();
+        }
+    }
 
     function PatientTable() {
         this.update = function () {
@@ -62,7 +89,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
         }
     }
 
@@ -80,7 +107,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+           modalReset();
     }
     }
 
@@ -256,7 +283,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
         }
     }
 
@@ -383,7 +410,7 @@ $(function(){
             })
         }
         this.reset = function () {
-            $("#id_modalWindow").empty().hide();
+            modalReset();
         }
     }
 
@@ -398,6 +425,7 @@ $(function(){
             alarmTable = new AlarmTable();
             addAlarmModal = new AddAlarmModal();
             modifyAlarmModal = new ModifyAlarmModal();
+            myProfile = new MyProfile();
 
             getTemplate( "header",null).done(function(data){
                 $('header').append(data);
@@ -408,11 +436,7 @@ $(function(){
         }
         this.refresh = function () {
             patientTable.reset();
-            addPatientModal.reset();
-            modifyPatientModal.reset();
-            alarmTable.reset();
-            addAlarmModal.reset();
-            modifyAlarmModal.reset();
+            modalReset();
         }
     }
 

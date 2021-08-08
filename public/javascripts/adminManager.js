@@ -11,6 +11,32 @@ $(function(){
         userTable.update();
     });
 
+    function MyProfile() {
+        this.update = function () {
+            self = this;
+            $.getJSON("admin/profile",function (data) {
+                pageOrchestrator.refresh();
+                self.show(data);
+            });
+        }
+
+        this.show = function (_profileData) {
+            self = this;
+            console.log(_profileData);
+            getTemplate( "admin_modal_editProfile",_profileData[0]).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    myProfile.reset();
+                });
+            })
+        }
+
+        this.reset = function () {
+            pageOrchestrator.refresh();
+            userTable.update();
+        }
+    }
+
     function UserTable() {
         this.update = function () {
             self = this;

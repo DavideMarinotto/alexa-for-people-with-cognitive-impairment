@@ -8,6 +8,28 @@ const Admin = function(admin) {
     this.surname = admin.surname;
 };
 
+Admin.getProfile = (_idUser, result) => {
+    sql.query("select idUser, Surname, Name, Mail from proginginf.user where idUser=?",_idUser, (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
+Admin.modifyProfile = (user, result) => {
+    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",[user.surname, user.name, user.email, user.idUser], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
 Admin.createUser = (newUser, result) => {
     sql.query("insert into proginginf.user(Surname, Name, Mail, Password) values(?,?,?,?)",
         [newUser.surname,newUser.name,newUser.email, newUser.password], (err, res) => {

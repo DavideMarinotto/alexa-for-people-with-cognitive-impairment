@@ -9,11 +9,58 @@
         <div class="modal-body">
             <form action="#" id="id_modifyAlarmForm" method="post">
                 <div class="form-group">
-                    <label for="message">Message:</label><br>
+                    <label for="id_message">Message:</label><br>
                     <input class="form-control" type="text" id="id_message" name="message" ><br>
+                    <label for="pattern">Choose time pattern:</label><br>
+                    <select id="id_pattern" name="pattern">
+                        <option value="None">Select an option</option>
+                        <option value="xMins">Every [X] Minutes</option>
+                        <option value="xHours">Every [X] Hours</option>
+                        <option value="everyDayAtX">Every Day at [XX]:[XX]</option>
+                        <option value="onDayAtX">On [Sunday,Monday] at [XX]:[XX]</option>
+                    </select>
+                    <div id="id_xMins">
+                        <label for="xMins">Minutes:</label>
+                        <input class="form-control" type="text" id="id_xMinsInput" name="xMins" >
+                    </div>
+                    <div id="id_xHours">
+                        <label for="xHours">Hours:</label>
+                        <input class="form-control" type="text" id="id_xHoursInput" name="xHours" >
+                    </div>
+                    <div id="id_days">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_sunday" value="0">
+                            <label class="form-check-label" for="id_sunday">Sunday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_monday" value="1">
+                            <label class="form-check-label" for="id_monday">Monday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_tuesday" value="2">
+                            <label class="form-check-label" for="id_tuesday">Tuesday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_wednesday" value="3">
+                            <label class="form-check-label" for="id_wednesday">Wednesday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_thursday" value="4">
+                            <label class="form-check-label" for="id_thursday">Thursday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_friday" value="5">
+                            <label class="form-check-label" for="id_friday">Friday</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="id_saturday" value="6">
+                            <label class="form-check-label" for="id_saturday">Saturday</label>
+                        </div>
+                    </div>
 
-                    <input class="form-control" type="hidden" id="id_cron" name="cron" value="#">
-                    <input class="form-control" type="hidden" id="id_cronString" name="cronString" value="#" >
+                    <input type="hidden" id="id_cron" value="#">
+                    <input type="hidden" id="id_cronString" value="#">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary sendModify" id="id_modifyAlarm">Modify</button>
