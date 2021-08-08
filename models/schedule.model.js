@@ -1,5 +1,5 @@
 const sql = require("./db.js");
-var CronJob = require('cron').CronJob;
+const schedule = require('node-schedule');
 
 // constructor
 const Schedule = function(schedule) {
@@ -18,7 +18,15 @@ Schedule.createAlarm = (newAlarm, result) => {
             result(err, null);
             return;
         }
-        result(null, {...newAlarm });
+        sql.query("SELECT idAlarm FROM proginginf.calendar WHERE idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            Schedule.addCron(res[0].idAlarm.toString(),newAlarm.message,newAlarm.idPatient,newAlarm.cron);
+            result(null, {...newAlarm });
+        });
     });
 };
 
@@ -45,7 +53,7 @@ Schedule.findAlarmById = (_idAlarm, result) => {
 };
 
 Schedule.deleteAlarmById = (_idAlarm, result) => {
-    console.log(_idAlarm);
+    Schedule.removeCron(_idAlarm);
     sql.query("delete from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -68,12 +76,17 @@ Schedule.modifyAlarm = (alarm, result) => {
         });
 };
 
+Schedule.addCron = (_uniqueName,_message,_to,_at) =>{
+    const job = schedule.scheduleJob(_uniqueName,_at,function(){
+        console.log('Send to '+_to+ " "+_message);
+    });
+}
 
-Schedule.test = () => {
-    var job = new CronJob('* * * * * *', function() {
-        console.log('You will see this message every second');
-    }, null, true, 'America/Los_Angeles');
-    job.start();
-};
+Schedule.removeCron = (_id) =>{
+        let current_job = schedule.scheduledJobs[_id];
+        if (current_job){
+            current_job.cancel();
+        }
+}
 
 module.exports = Schedule;

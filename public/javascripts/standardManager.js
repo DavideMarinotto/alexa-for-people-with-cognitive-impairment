@@ -99,10 +99,11 @@ $(function(){
             });
         }
         this.show = function (_tableData) {
+            var self = this;
             getTemplate( "schedule_alarmList",_tableData).done(function(data){
                 $('#patientTable').append(data);
                 $('#id_addAlarmBtn').click(function() {
-                    addAlarmModal.show();
+                    addAlarmModal.show(self.idPatient);
                 });
                 $('.removeAlarmBtn').click(function() {
                     alarmTable.deleteUser( $(this).parent().parent().parent().attr("idalarm") );
@@ -128,7 +129,8 @@ $(function(){
     }
 
     function AddAlarmModal(_target) {
-        this.show = function () {
+        this.show = function (_id) {
+            this.idPatient = _id;
             self = this;
             getTemplate( "schedule_modal_newAlarm",null).done(function(data){
                 $("#id_modalWindow").append(data).show();
@@ -138,30 +140,112 @@ $(function(){
                     $("#id_days").hide();
                 };
                 hider();
+                $('#id_sendNewAlarm').hide();
                 $('#id_pattern').change(function() {
                     if ($(this).val() === 'None'){
                         hider();
+                        $('#id_sendNewAlarm').hide();
                     }
                     if ($(this).val() === 'xMins'){
                         hider();
                         $("#id_xMins").show();
+                        $('#id_sendNewAlarm').show();
+
                     }
                     if ($(this).val() === 'xHours'){
                         hider();
                         $("#id_xHours").show();
+                        $('#id_sendNewAlarm').show();
                     }
                     if ($(this).val() === 'everyDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
+                        $('#id_sendNewAlarm').show();
                     }
                     if ($(this).val() === 'onDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
                         $("#id_days").show();
+                        $('#id_sendNewAlarm').show();
                     }
                 });
+
+                $('#id_sendNewAlarm').click(function() {
+                    var formData = $('#id_newAlarmForm').serializeArray().reduce(function(obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+
+                    const days = [];
+                    const daysString = [];
+                    if($('#id_sunday').prop('checked')) {
+                        days.push(0);
+                        daysString.push("Sunday");
+                    }
+                    if($('#id_monday').prop('checked')) {
+                        days.push(1);
+                        daysString.push("Monday");
+                    }
+                    if($('#id_tuesday').prop('checked')) {
+                        days.push(2);
+                        daysString.push("Tuesday");
+                    }
+                    if($('#id_wednesday').prop('checked')) {
+                        days.push(3);
+                        daysString.push("Wednesday");
+                    }
+                    if($('#id_thursday').prop('checked')) {
+                        days.push(4);
+                        daysString.push("Thursday");
+                    }
+                    if($('#id_friday').prop('checked')) {
+                        days.push(5);
+                        daysString.push("Friday");
+                    }if($('#id_saturday').prop('checked')) {
+                        days.push(6);
+                        daysString.push("Saturday");
+                    }
+                    var patternVal = $('#id_pattern').val();
+                    var cron,cronString;
+                    if (patternVal === 'xMins'){
+                        cronString = "Every "+ formData.xMins + " Minutes";
+                        cron = "*/"+ formData.xMins +" * * * *";
+                    }
+                    if (patternVal === 'xHours'){
+                        cronString = "Every "+ formData.xHours + " Hours";
+                        cron = "0 */"+ formData.xHours +" * * *";
+                    }
+                    if (patternVal === 'everyDayAtX'){
+                        cronString = "Every Day at "+ formData.xHours + " " + formData.xMins;
+                        cron = formData.xMins + " " + formData.xHours +" * * *";
+                    }
+                    if (patternVal === 'onDayAtX'){
+                        cronString = "Every "+ daysString.join() +" at "+ formData.xHours + " " + formData.xMins;
+                        cron = formData.xMins + " " + formData.xHours +" * * " + days.join();
+                    }
+
+                    var settings = {
+                        "url": "schedule/alarms",
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        "data": {
+                            "idPatient": _id,
+                            "message": formData.message,
+                            "cron": cron,
+                            "cronString": cronString
+                        }
+                    };
+                    $.ajax(settings).done(function (response) {
+                        pageOrchestrator.refresh();
+                        alarmTable.update(response.idPatient);
+                    });
+                });
+
                 $('.modalClose').click(function() {
                     addAlarmModal.reset();
                 });
@@ -213,6 +297,10 @@ $(function(){
         this.refresh = function () {
             patientTable.reset();
             addPatientModal.reset();
+            modifyPatientModal.reset();
+            alarmTable.reset();
+            addAlarmModal.reset();
+            modifyAlarmModal.reset();
         }
     }
 

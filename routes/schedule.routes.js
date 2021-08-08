@@ -15,14 +15,10 @@ router.use(function(req, res, next) {
 router.get('/', [authJwt.isStandard],function(req, res, next) {
   res.sendFile(path.resolve('public/admin.html'));
 });
-router.post('/alarms',[authJwt.isStandard],schedule.createAlarm);
+router.post('/alarms',schedule.createAlarm);
 router.get('/alarms/:idPatient',[authJwt.isStandard],schedule.findAllPatientAlarms);
 router.get('/alarm/:idAlarm',[authJwt.isStandard],schedule.findAlarmById);
 router.delete('/alarm/:idAlarm',[authJwt.isStandard],schedule.deleteAlarmById);
 router.post('/alarm/:idAlarm',[authJwt.isStandard],schedule.modifyAlarm);
-
-router.get('/test',schedule.test);
-
-
 
 module.exports = router;

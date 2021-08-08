@@ -9,10 +9,8 @@
             <div class="modal-body">
                 <form action="schedule/alarms" id="id_newAlarmForm" method="post">
                     <div class="form-group">
-                        <label for="Name">Name:</label><br>
-                        <input class="form-control" type="text" id="id_Name" name="name" ><br>
-                        <label for="Surname">Message:</label><br>
-                        <input class="form-control" type="text" id="id_Surname" name="surname" ><br>
+                        <label for="id_message">Message:</label><br>
+                        <input class="form-control" type="text" id="id_message" name="message" ><br>
                         <label for="pattern">Choose time pattern:</label><br>
                         <select id="id_pattern" name="pattern">
                             <option value="None">Select an option</option>
@@ -31,31 +29,31 @@
                         </div>
                         <div id="id_days">
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_sunday" value="sunday">
+                            <input class="form-check-input" type="checkbox" id="id_sunday" value="0">
                             <label class="form-check-label" for="id_sunday">Sunday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_monday" value="monday">
-                            <label class="form-check-label" for="inlineCheckbox2">Monday</label>
+                            <input class="form-check-input" type="checkbox" id="id_monday" value="1">
+                            <label class="form-check-label" for="id_monday">Monday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_tuesday" value="tuesday">
-                            <label class="form-check-label" for="id_sunday">Tuesday</label>
+                            <input class="form-check-input" type="checkbox" id="id_tuesday" value="2">
+                            <label class="form-check-label" for="id_tuesday">Tuesday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_wednesday" value="wednesday">
-                            <label class="form-check-label" for="inlineCheckbox2">Wednesday</label>
+                            <input class="form-check-input" type="checkbox" id="id_wednesday" value="3">
+                            <label class="form-check-label" for="id_wednesday">Wednesday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_thursday" value="thursday">
+                            <input class="form-check-input" type="checkbox" id="id_thursday" value="4">
                             <label class="form-check-label" for="id_thursday">Thursday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_friday" value="friday">
+                            <input class="form-check-input" type="checkbox" id="id_friday" value="5">
                             <label class="form-check-label" for="id_friday">Friday</label>
                         </div>
                         <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="checkbox" id="id_saturday" value="saturday">
+                            <input class="form-check-input" type="checkbox" id="id_saturday" value="6">
                             <label class="form-check-label" for="id_saturday">Saturday</label>
                         </div>
                         </div>
@@ -66,7 +64,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i>  Create New Alarm</button>
+                        <button type="button" class="btn btn-primary" id="id_sendNewAlarm"><i class="fas fa-user-plus"></i>  Create New Alarm</button>
                         <button class="btn btn-danger modalClose"> Cancel </button>
                     </div>
                 </form>

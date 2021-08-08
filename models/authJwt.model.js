@@ -11,7 +11,6 @@ isVerify = (req, res, next) => {
     }
     try {
         const data = jwt.verify(token, config.secret);
-        console.log(data);
         req.userId = data.id;
         req.userRole = data.role;
         return next();
@@ -30,7 +29,6 @@ isAdmin = (req, res, next) => {
     }
     try {
         const data = jwt.verify(token, config.secret);
-        console.log(data);
         req.userId = data. id;
         req.userRole = data.role;
         if (data.role !== "admin")
@@ -53,7 +51,6 @@ isStandard = (req, res, next) => {
     }
     try {
         const data = jwt.verify(token, config.secret);
-        console.log(data);
         req.userId = data. id;
         req.userRole = data.role;
         if (data.role !== "standard")

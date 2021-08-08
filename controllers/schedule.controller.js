@@ -74,7 +74,3 @@ exports.modifyAlarm = (req, res) => {
         else res.send({url: '/standard'});
     });
 };
-
-exports.test = (req, res) => {
-    Schedule.test();
-};
