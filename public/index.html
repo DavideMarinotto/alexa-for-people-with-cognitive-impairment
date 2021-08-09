@@ -7,16 +7,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
   <link rel="stylesheet" href="/stylesheets/style.css">
 
-  <!-- VENDOR SCRIPTS -->
-  <!-- font awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <!-- jquery -->
-  <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-  <!-- handlebars -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+    <!-- VENDOR SCRIPTS -->
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- jquery -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- handlebars -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 
+    <!-- APPLICATION SCRIPTS -->
+    <script src="javascripts/loginManager.js"></script>
 </head>
 
 <body class="bg-light d-flex align-items-center">
@@ -26,15 +28,15 @@
             <div class="text-center">
                 <h1>Login</h1>
             </div>
-            <div CLASS="d-flex justify-content-md-center">
-                <form action="/auth/signin" method="post">
+            <div class="d-flex justify-content-md-center">
+                <form action="/auth/signin" method="post" id="id_loginForm">
                   <div class="form-group">
                       <label>Mail : </label>
-                      <input class="form-control form-control-min-width" type="text" placeholder="Enter Mail" name="mail" required>
+                      <input class="form-control form-control-min-width" type="email" placeholder="Enter Mail" name="mail" id="id_mailField" required>
                       <label>Password : </label>
-                      <input class="form-control" type="password" placeholder="Enter Password" name="password" required>
+                      <input class="form-control" type="password" placeholder="Enter Password" name="password" id="id_passwordField" required>
                       <div class="text-center">
-                        <input class="btn btn-primary mt-3" type="submit" value="Submit">
+                          <button class="btn btn-primary mt-3" id="id_loginBtn">Login</button>
                       </div>
                   </div>
               </form>

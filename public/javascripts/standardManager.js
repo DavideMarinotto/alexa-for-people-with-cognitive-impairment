@@ -17,7 +17,6 @@ $(function(){
         this.update = function () {
             self = this;
             $.getJSON("standard/profile",function (data) {
-                pageOrchestrator.refresh();
                 self.show(data);
             });
         }

@@ -125,3 +125,11 @@ exports.modifyUser = (req, res) => {
         else res.redirect("/admin");
     });
 };
+
+exports.loginAsStandard = (req, res) => {
+    var token = jwt.sign({id: req.params.idUser, role: "standard"}, config.secret);
+    res.cookie("access_token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+        }).status(200).send("/standard");
+};

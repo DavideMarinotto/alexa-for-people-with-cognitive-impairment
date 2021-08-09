@@ -15,7 +15,6 @@ $(function(){
         this.update = function () {
             self = this;
             $.getJSON("admin/profile",function (data) {
-                pageOrchestrator.refresh();
                 self.show(data);
             });
         }
@@ -59,6 +58,18 @@ $(function(){
                 });
                 $('.resetUserPwBtn').click(function() {
                     resetPasswordModal.show( $(this).parent().parent().attr("idUser") );
+                });
+                $('.loginAsStandardBtn').click(function() {
+                    let idUser = $(this).parent().parent().attr("idUser");
+                    var settings = {
+                        "url": "admin/standard-login/"+idUser,
+                        "method": "GET",
+                        "timeout": 0,
+                    };
+                    $.ajax(settings).done(function (response) {
+                        window.location.replace("/standard");
+                    });
+
                 });
             })
         }

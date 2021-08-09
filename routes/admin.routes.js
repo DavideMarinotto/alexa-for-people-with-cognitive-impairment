@@ -18,6 +18,7 @@ router.get('/', [authJwt.isAdmin],function(req, res, next) {
 });
 router.get('/profile',[authJwt.isAdmin],admin.getProfile);
 router.post('/profile',[authJwt.isAdmin],admin.modifyProfile);
+router.get('/standard-login/:idUser',[authJwt.isAdmin],admin.loginAsStandard);
 router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);
 router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);

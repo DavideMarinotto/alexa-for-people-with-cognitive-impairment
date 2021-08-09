@@ -23,15 +23,17 @@
         {{#each this}}
         <tr idUser="{{idUser}}">
             <td>{{Name}} {{Surname}}</td>
-            <td>{{Mail}}</td>
+            <td>
+                <a href="mailto:{{Mail}}">{{Mail}}</a>
+            </td>
             <td>
                 <div class="btn-group" role="group">
                     <button type="button" class="btn btn-primary modifyUserBtn"><i class="fas fa-pen"></i></button>
                     <button type="button" class="btn btn-danger removeUserBtn"><i class="fas fa-trash-alt"></i></button>
                 </div>
             </td>
-            <td><button type="button" class="btn btn-primary"><i class="fas fa-user"></i> Login</button>
-           <button type="button" class="btn btn-danger resetUserPwBtn"> Reset Password</button></td>
+            <td><button type="button" class="btn btn-primary loginAsStandardBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+           <button type="button" class="btn btn-danger resetUserPwBtn"><i class="fas fa-unlock-alt"></i> Reset Password</button></td>
         </tr>
         {{/each}}
         </tbody>
