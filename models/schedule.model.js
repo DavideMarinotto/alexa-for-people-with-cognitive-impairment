@@ -40,6 +40,16 @@ Schedule.findAllPatientAlarms = (_idPatient, result) => {
             result(null, res);
         });
 };
+Schedule.findAllAlarms = result => {
+    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, P.idAlexa from proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
 
 Schedule.findAlarmById = (_idAlarm, result) => {
     sql.query("select * from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {

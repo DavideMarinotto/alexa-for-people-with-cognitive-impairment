@@ -118,7 +118,7 @@ $(function(){
                     addUserModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _idUser + '/modify').submit();
+                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _idUser + '/modify').validate().submit();
                 });
             })
         }

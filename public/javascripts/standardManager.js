@@ -108,7 +108,7 @@ $(function(){
                     addPatientModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyPatientForm").attr('action', '/standard/patient/' + _idPatient).submit();
+                    $("#id_modifyPatientForm").attr('action', '/standard/patient/' + _idPatient).validate().submit();
                 });
             })
         }
@@ -214,7 +214,11 @@ $(function(){
                         obj[item.name] = item.value;
                         return obj;
                     }, {});
-
+                    if(formData.message === "" || formData.message === "undefined"){
+                        alert("Il campo Message è obbligatorio.");
+                        formData.message.focus();
+                        return false;
+                    }
                     const days = [];
                     const daysString = [];
                     if($('#id_sunday').prop('checked')) {
@@ -245,6 +249,44 @@ $(function(){
                         daysString.push("Saturday");
                     }
                     var patternVal = $('#id_pattern').val();
+                    if (patternVal === 'xMins' && (formData.xMins<1 || formData.xMins>59)){
+                        alert("Il campo xMins deve essere compreso tra 1 e 59.");
+                        formData.xMins.focus();
+                        return false;
+                    }
+                    if (patternVal === 'xHours' && (formData.xHours<1 || formData.xHours>23)){
+                        alert("Il campo xHours deve essere compreso tra 1 e 23.");
+                        formData.xHours.focus();
+                        return false;
+                    }
+                    if (patternVal === 'everyDayAtX'){
+                        if(formData.xHours<0 || formData.xHours>23){
+                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            formData.xHours.focus();
+                            return false;
+                        }
+                        else if(formData.xMins<0 || formData.xMins>59){
+                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            formData.xMins.focus();
+                            return false;
+                        }
+                    }
+                    if (patternVal === 'onDayAtX'){
+                        if(days.length === 0){
+                            alert("Deve essere selezionato almeno un giorno");
+                            return false;
+                        }
+                        else if(formData.xHours<0 || formData.xHours>23){
+                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            formData.xHours.focus();
+                            return false;
+                        }
+                        else if(formData.xMins<0 || formData.xMins>59){
+                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            formData.xMins.focus();
+                            return false;
+                        }
+                    }
                     var cron,cronString;
                     if (patternVal === 'xMins'){
                         cronString = "Every "+ formData.xMins + " Minutes";
@@ -312,35 +354,35 @@ $(function(){
                     $("#id_days").hide();
                 };
                 hider();
-                $('#id_sendNewAlarm').hide();
+                $('#id_modifyAlarm').hide();
                 $('#id_pattern').change(function() {
                     if ($(this).val() === 'None'){
                         hider();
-                        $('#id_sendNewAlarm').hide();
+                        $('#id_modifyAlarm').hide();
                     }
                     if ($(this).val() === 'xMins'){
                         hider();
                         $("#id_xMins").show();
-                        $('#id_sendNewAlarm').show();
+                        $('#id_modifyAlarm').show();
 
                     }
                     if ($(this).val() === 'xHours'){
                         hider();
                         $("#id_xHours").show();
-                        $('#id_sendNewAlarm').show();
+                        $('#id_modifyAlarm').show();
                     }
                     if ($(this).val() === 'everyDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
-                        $('#id_sendNewAlarm').show();
+                        $('#id_modifyAlarm').show();
                     }
                     if ($(this).val() === 'onDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
                         $("#id_days").show();
-                        $('#id_sendNewAlarm').show();
+                        $('#id_modifyAlarm').show();
                     }
                 });
 
@@ -349,7 +391,11 @@ $(function(){
                         obj[item.name] = item.value;
                         return obj;
                     }, {});
-
+                    if(formData.message === "" || formData.message === "undefined"){
+                        alert("Il campo Message è obbligatorio.");
+                        formData.message.focus();
+                        return false;
+                    }
                     const days = [];
                     const daysString = [];
                     if($('#id_sunday').prop('checked')) {
@@ -380,6 +426,44 @@ $(function(){
                         daysString.push("Saturday");
                     }
                     var patternVal = $('#id_pattern').val();
+                    if (patternVal === 'xMins' && (formData.xMins<1 || formData.xMins>59)){
+                        alert("Il campo xMins deve essere compreso tra 1 e 59.");
+                        formData.xMins.focus();
+                        return false;
+                    }
+                    if (patternVal === 'xHours' && (formData.xHours<1 || formData.xHours>23)){
+                        alert("Il campo xHours deve essere compreso tra 1 e 23.");
+                        formData.xHours.focus();
+                        return false;
+                    }
+                    if (patternVal === 'everyDayAtX'){
+                        if(formData.xHours<0 || formData.xHours>23){
+                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            formData.xHours.focus();
+                            return false;
+                        }
+                        else if(formData.xMins<0 || formData.xMins>59){
+                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            formData.xMins.focus();
+                            return false;
+                        }
+                    }
+                    if (patternVal === 'onDayAtX'){
+                        if(days.length === 0){
+                            alert("Deve essere selezionato almeno un giorno");
+                            return false;
+                        }
+                        else if(formData.xHours<0 || formData.xHours>23){
+                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            formData.xHours.focus();
+                            return false;
+                        }
+                        else if(formData.xMins<0 || formData.xMins>59){
+                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            formData.xMins.focus();
+                            return false;
+                        }
+                    }
                     var cron,cronString;
                     if (patternVal === 'xMins'){
                         cronString = "Every "+ formData.xMins + " Minutes";
@@ -453,6 +537,15 @@ $(function(){
             modalReset();
         }
     }
+
+    /*function checkSubmitAlarm(pattern, alarmFormData, chosenDays) {
+        if (alarmFormData.message == null) return false;
+        else if (pattern === 'xMins' && alarmFormData.xMins == null) return false;
+        else if (pattern === 'xHours' && alarmFormData.xHours == null) return false;
+        else if (pattern === 'everyDayAtX' && (alarmFormData.xMins == null || alarmFormData.xHours == null)) return false;
+        if (pattern === 'onDayAtX' && chosenDays.length === 0) return false;
+        return true;
+    }*/
 
     function modalReset() {
         $("#id_modalWindow").empty().hide();

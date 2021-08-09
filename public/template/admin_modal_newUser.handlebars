@@ -10,13 +10,13 @@
                 <form action="admin/createNewUser" id="id_newUserForm" method="post">
                     <div class="form-group">
                         <label for="Name">Name:</label><br>
-                        <input class="form-control" type="text" id="id_Name" name="name" ><br>
+                        <input class="form-control" type="text" id="id_Name" name="name" required><br>
                         <label for="Surname">Surname:</label><br>
-                        <input class="form-control" type="text" id="id_Surname" name="surname" ><br>
+                        <input class="form-control" type="text" id="id_Surname" name="surname" required><br>
                         <label for="Mail">Mail:</label><br>
-                        <input class="form-control" type="email" id="id_Mail" name="email" ><br>
+                        <input class="form-control" type="email" id="id_Mail" name="email" required><br>
                         <label for="Password">Password:</label><br>
-                        <input class="form-control" type="password" id="id_Password" name="password" ><br>
+                        <input class="form-control" type="password" id="id_Password" name="password" minlength="5" required><br>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i>  Create New User</button>
