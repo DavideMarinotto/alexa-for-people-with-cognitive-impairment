@@ -11,22 +11,16 @@ exports.signin = (req, res) => {
                 message:
                     err.message || "Some error occurred while find Users."
             });
-
-        user = data;
-        if (!user) {
-            return res.status(404).send({message: "User Not found."});
+        if (!data) {
+            return res.redirect("/");
         }
-
+        user = new User(data);
         var passwordIsValid = bcrypt.compareSync(
             req.body.password,
             user.Password
         );
-
         if (!passwordIsValid) {
-            return res.status(401).send({
-                accessToken: null,
-                message: "Invalid Password!"
-            });
+            return res.redirect("/");
         }
         var role = "standard";
         if (user.isAdmin){

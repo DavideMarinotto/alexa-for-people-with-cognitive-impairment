@@ -17,7 +17,11 @@ User.findUserByMail = (_mail, result) => {
             result(err, null);
             return;
         }
-        result(null, new User(res[0]) );
+        console.log(res[0]);
+        if (res[0] === undefined)
+            result(null, null);
+        else
+            result(null, new User(res[0]) );
     });
 };
 
