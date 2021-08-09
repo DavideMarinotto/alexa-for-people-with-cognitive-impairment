@@ -16,7 +16,7 @@ $(function(){
     function MyProfile() {
         this.update = function () {
             self = this;
-            $.getJSON("standard/profile",function (data) {
+            $.getJSON("standard/profile" ,function (data) {
                 self.show(data);
             });
         }
@@ -56,7 +56,7 @@ $(function(){
                     patientTable.deleteUser( $(this).parent().parent().parent().attr("idpatient") );
                 });
                 $('.modifyPatientBtn').click(function() {
-                    modifyPatientModal.show( $(this).parent().parent().parent().attr("idpatient") );
+                    modifyPatientModal.update( $(this).parent().parent().parent().attr("idpatient") );
                 });
                 $('.calendarBtn').click(function() {
                     alarmTable.update( $(this).parent().parent().attr("idpatient") );
@@ -93,15 +93,22 @@ $(function(){
     }
 
     function ModifyPatientModal(_target) {
-        this.show = function (_id) {
+        this.update = function (_idPatient) {
             self = this;
-            getTemplate( "standard_modal_modifyPatient",null).done(function(data){
+            $.getJSON("standard/patient/" + _idPatient,function (_patientData) {
+                self.show(_idPatient, _patientData[0]);
+            });
+        }
+
+        this.show = function (_idPatient, _patientData) {
+            self = this;
+            getTemplate( "standard_modal_modifyPatient",_patientData).done(function(data){
                 $("#id_modalWindow").append(data).show();
                 $('.modalClose').click(function() {
                     addPatientModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyPatientForm").attr('action', '/standard/patient/' + _id).submit();
+                    $("#id_modifyPatientForm").attr('action', '/standard/patient/' + _idPatient).submit();
                 });
             })
         }
@@ -139,7 +146,7 @@ $(function(){
                     alarmTable.deleteUser( $(this).parent().parent().parent().attr("idalarm") );
                 });
                 $('.modifyAlarmBtn').click(function() {
-                    modifyAlarmModal.show( $(this).parent().parent().parent().attr("idalarm"),self.idPatient );
+                    modifyAlarmModal.update( $(this).parent().parent().parent().attr("idalarm"),self.idPatient );
                 });
             })
         }
@@ -287,9 +294,17 @@ $(function(){
     }
 
     function ModifyAlarmModal(_target) {
-        this.show = function (_idAlarm , _idPatient) {
+        this.update = function (_idAlarm, _idPatient) {
             self = this;
-            getTemplate( "schedule_modal_modifyAlarm",null).done(function(data){
+            $.getJSON("schedule/alarm/" + _idAlarm,function (_alarmData) {
+                console.log(_alarmData);
+                self.show(_idAlarm, _idPatient, _alarmData[0]);
+            });
+        }
+
+        this.show = function (_idAlarm , _idPatient, _alarmData) {
+            self = this;
+            getTemplate( "schedule_modal_modifyAlarm",_alarmData).done(function(data){
                 $("#id_modalWindow").append(data).show();
                 var hider = function(){
                     $("#id_xMins").hide();

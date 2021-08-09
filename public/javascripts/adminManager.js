@@ -54,7 +54,7 @@ $(function(){
                     userTable.deleteUser( $(this).parent().parent().parent().attr("idUser") );
                 });
                 $('.modifyUserBtn').click(function() {
-                    modifyUserModal.show( $(this).parent().parent().parent().attr("idUser") );
+                    modifyUserModal.update( $(this).parent().parent().parent().attr("idUser") );
                 });
                 $('.resetUserPwBtn').click(function() {
                     resetPasswordModal.show( $(this).parent().parent().attr("idUser") );
@@ -103,15 +103,22 @@ $(function(){
     }
 
     function ModifyUserModal(_target) {
-        this.show = function (_id) {
+        this.update = function (_idUser) {
             self = this;
-            getTemplate( "admin_modal_modifyUser",null).done(function(data){
+            $.getJSON("admin/user/" + _idUser,function (_userData) {
+                self.show(_idUser, _userData[0]);
+            });
+        }
+
+        this.show = function (_idUser, _userData) {
+            self = this;
+            getTemplate( "admin_modal_modifyUser",_userData).done(function(data){
                 $("#id_modalWindow").append(data).show();
                 $('.modalClose').click(function() {
                     addUserModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _id + '/modify').submit();
+                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _idUser + '/modify').submit();
                 });
             })
         }
