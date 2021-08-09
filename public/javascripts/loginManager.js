@@ -24,6 +24,8 @@ $(function(){
 
             $.ajax(settings).done(function (response) {
                 console.log(response);
+            }).fail(function() {
+                alert( "error" );
             });
         }
 
