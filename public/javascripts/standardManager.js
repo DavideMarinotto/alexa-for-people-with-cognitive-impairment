@@ -2,6 +2,7 @@ $(function(){
     let patientTable,
         addPatientModal,
         modifyPatientModal,
+        resetSelfPasswordModal,
         alarmTable,
         addAlarmModal,
         modifyAlarmModal,
@@ -29,12 +30,38 @@ $(function(){
                 $('.modalClose').click(function() {
                     myProfile.reset();
                 });
+                $('.resetPwBtn').click(function() {
+                    myProfile.reset();
+                    resetSelfPasswordModal.show();
+                });
             })
         }
 
         this.reset = function () {
-           pageOrchestrator.refresh();
-           patientTable.update();
+           modalReset();
+        }
+    }
+
+    function ResetSelfPassword(_target) {
+        this.show = function () {
+            self = this;
+            getTemplate( "self_modal_resetPassword",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    resetSelfPasswordModal.reset();
+                });
+                $('.sendResetPassword').click(function() {
+                    if($("#id_Password").val().length>=5)
+                        $("#id_selfResetPasswordForm").attr('action', '/standard/resetPassword').submit();
+                    else{
+                        alert("La password deve contenere almeno 5 caratteri");
+                        return false;
+                    }
+                });
+            })
+        }
+        this.reset = function () {
+            modalReset();
         }
     }
 
@@ -519,6 +546,7 @@ $(function(){
             patientTable = new PatientTable();
             addPatientModal = new AddPatientModal();
             modifyPatientModal = new ModifyPatientModal();
+            resetSelfPasswordModal = new ResetSelfPassword();
 
             alarmTable = new AlarmTable();
             addAlarmModal = new AddAlarmModal();
@@ -537,15 +565,6 @@ $(function(){
             modalReset();
         }
     }
-
-    /*function checkSubmitAlarm(pattern, alarmFormData, chosenDays) {
-        if (alarmFormData.message == null) return false;
-        else if (pattern === 'xMins' && alarmFormData.xMins == null) return false;
-        else if (pattern === 'xHours' && alarmFormData.xHours == null) return false;
-        else if (pattern === 'everyDayAtX' && (alarmFormData.xMins == null || alarmFormData.xHours == null)) return false;
-        if (pattern === 'onDayAtX' && chosenDays.length === 0) return false;
-        return true;
-    }*/
 
     function modalReset() {
         $("#id_modalWindow").empty().hide();

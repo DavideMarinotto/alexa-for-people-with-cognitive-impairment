@@ -1,5 +1,6 @@
 const Patient = require("../models/patient.model");
 const Standard = require("../models/standard.model");
+var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 
@@ -36,6 +37,21 @@ exports.modifyProfile = (req, res) => {
         else res.redirect("/standard");
     });
 };
+
+exports.resetSelfPassword = (req, res) => {
+    const token = req.cookies.access_token;
+    const data = jwt.verify(token, config.secret);
+    let hash = bcrypt.hashSync(req.body.password, 8);
+    Standard.resetPassword({idUser: data.id, password: hash}, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
+            });
+        else res.redirect("/standard");
+    });
+};
+
 exports.createPatient = (req, res) => {
     // Validate request
     if (!req.body) {

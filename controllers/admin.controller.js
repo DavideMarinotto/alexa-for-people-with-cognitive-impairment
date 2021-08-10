@@ -39,6 +39,20 @@ exports.modifyProfile = (req, res) => {
     });
 };
 
+exports.resetSelfPassword = (req, res) => {
+    const token = req.cookies.access_token;
+    const data = jwt.verify(token, config.secret);
+    let hash = bcrypt.hashSync(req.body.password, 8);
+    Admin.resetPassword({idUser: data.id, password: hash}, (err, data) => {
+        if (err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the User."
+            });
+        else res.redirect("/admin");
+    });
+};
+
 exports.createUser = (req, res) => {
     // Validate request
     if (!req.body) {

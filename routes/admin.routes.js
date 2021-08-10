@@ -25,5 +25,6 @@ router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);
 router.delete('/user/:idUser',[authJwt.isAdmin],admin.deleteUserById);
 router.post('/user/:idUser/reset',[authJwt.isAdmin],admin.resetPassword);
 router.post('/user/:idUser/modify',[authJwt.isAdmin],admin.modifyUser);
+router.post('/resetPassword',[authJwt.isAdmin],admin.resetSelfPassword);
 
 module.exports = router;

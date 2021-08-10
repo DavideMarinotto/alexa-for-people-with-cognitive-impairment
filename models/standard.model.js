@@ -20,6 +20,17 @@ Standard.getProfile = (_idUser, result) => {
     });
 };
 
+Standard.resetPassword = (user, result) => {
+    sql.query("update proginginf.user set Password=? where idUser=?", [user.password, user.idUser], (err, res) => {
+        if (err) {
+            console.log("error: ", err);
+            result(err, null);
+            return;
+        }
+        result(null, res);
+    });
+};
+
 Standard.modifyProfile = (user, result) => {
     sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",[user.surname, user.name, user.email, user.idUser], (err, res) => {
         if (err) {

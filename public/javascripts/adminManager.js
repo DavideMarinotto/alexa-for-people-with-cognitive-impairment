@@ -2,7 +2,8 @@ $(function(){
     let userTable,
         addUserModal,
         modifyUserModal,
-        resetPasswordModal,
+        resetSelfPasswordModal,
+        resetUserPasswordModal,
         myProfile,
         pageOrchestrator = new PageOrchestrator();
 
@@ -27,12 +28,15 @@ $(function(){
                 $('.modalClose').click(function() {
                     myProfile.reset();
                 });
+                $('.resetPwBtn').click(function() {
+                    myProfile.reset();
+                    resetSelfPasswordModal.show();
+                });
             })
         }
 
         this.reset = function () {
-            pageOrchestrator.refresh();
-            userTable.update();
+            modalReset();
         }
     }
 
@@ -57,7 +61,7 @@ $(function(){
                     modifyUserModal.update( $(this).parent().parent().parent().attr("idUser") );
                 });
                 $('.resetUserPwBtn').click(function() {
-                    resetPasswordModal.show( $(this).parent().parent().attr("idUser") );
+                    resetUserPasswordModal.show( $(this).parent().parent().attr("idUser") );
                 });
                 $('.loginAsStandardBtn').click(function() {
                     let idUser = $(this).parent().parent().attr("idUser");
@@ -133,10 +137,15 @@ $(function(){
             getTemplate( "admin_modal_resetPassword",null).done(function(data){
                 $("#id_modalWindow").append(data).show();
                 $('.modalClose').click(function() {
-                    resetPasswordModal.reset();
+                    resetUserPasswordModal.reset();
                 });
                 $('.sendResetPassword').click(function() {
-                    $("#id_resetPasswordForm").attr('action', '/admin/user/' + _id + '/reset').submit();
+                    if($("#id_Password").val().length>=5)
+                        $("#id_resetPasswordForm").attr('action', '/admin/user/' + _id + '/reset').submit();
+                    else{
+                        alert("La password deve contenere almeno 5 caratteri");
+                        return false;
+                    }
                 });
             })
         }
@@ -145,13 +154,36 @@ $(function(){
         }
     }
 
+    function ResetSelfPassword(_target) {
+        this.show = function () {
+            self = this;
+            getTemplate( "self_modal_resetPassword",null).done(function(data){
+                $("#id_modalWindow").append(data).show();
+                $('.modalClose').click(function() {
+                    resetSelfPasswordModal.reset();
+                });
+                $('.sendResetPassword').click(function() {
+                    if($("#id_Password").val().length>=5)
+                        $("#id_selfResetPasswordForm").attr('action', '/admin/resetPassword').submit();
+                    else{
+                        alert("La password deve contenere almeno 5 caratteri");
+                        return false;
+                    }
+                });
+            })
+        }
+        this.reset = function () {
+            modalReset();
+        }
+    }
 
     function PageOrchestrator() {
         this.start = function () {
             userTable = new UserTable();
             addUserModal = new AddUserModal();
             modifyUserModal = new ModifyUserModal();
-            resetPasswordModal = new ResetUserPassword();
+            resetUserPasswordModal = new ResetUserPassword();
+            resetSelfPasswordModal = new ResetSelfPassword();
             myProfile = new MyProfile();
 
             getTemplate( "header",null).done(function(data){
