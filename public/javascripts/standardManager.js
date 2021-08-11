@@ -287,12 +287,13 @@ $(function(){
                         return false;
                     }
                     if (patternVal === 'everyDayAtX'){
-                        if(formData.xHours<0 || formData.xHours>23){
+                        console.log(formData);
+                        if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
                             alert("Il campo Hours deve essere compreso tra 0 e 23.");
                             formData.xHours.focus();
                             return false;
                         }
-                        else if(formData.xMins<0 || formData.xMins>59){
+                        else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
                             alert("Il campo Minutes deve essere compreso tra 0 e 59.");
                             formData.xMins.focus();
                             return false;
@@ -303,12 +304,12 @@ $(function(){
                             alert("Deve essere selezionato almeno un giorno");
                             return false;
                         }
-                        else if(formData.xHours<0 || formData.xHours>23){
+                        else if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
                             alert("Il campo Hours deve essere compreso tra 0 e 23.");
                             formData.xHours.focus();
                             return false;
                         }
-                        else if(formData.xMins<0 || formData.xMins>59){
+                        else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
                             alert("Il campo Minutes deve essere compreso tra 0 e 59.");
                             formData.xMins.focus();
                             return false;
@@ -464,12 +465,12 @@ $(function(){
                         return false;
                     }
                     if (patternVal === 'everyDayAtX'){
-                        if(formData.xHours<0 || formData.xHours>23){
+                        if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
                             alert("Il campo Hours deve essere compreso tra 0 e 23.");
                             formData.xHours.focus();
                             return false;
                         }
-                        else if(formData.xMins<0 || formData.xMins>59){
+                        else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
                             alert("Il campo Minutes deve essere compreso tra 0 e 59.");
                             formData.xMins.focus();
                             return false;
@@ -480,12 +481,12 @@ $(function(){
                             alert("Deve essere selezionato almeno un giorno");
                             return false;
                         }
-                        else if(formData.xHours<0 || formData.xHours>23){
+                        else if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
                             alert("Il campo Hours deve essere compreso tra 0 e 23.");
                             formData.xHours.focus();
                             return false;
                         }
-                        else if(formData.xMins<0 || formData.xMins>59){
+                        else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
                             alert("Il campo Minutes deve essere compreso tra 0 e 59.");
                             formData.xMins.focus();
                             return false;
