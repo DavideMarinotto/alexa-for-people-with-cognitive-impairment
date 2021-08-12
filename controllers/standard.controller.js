@@ -3,6 +3,9 @@ const Standard = require("../models/standard.model");
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
+const {Parser} = require('json2csv');
+const {validationResult} = require('express-validator');
+
 
 exports.getProfile = (req, res) => {
     const token = req.cookies.access_token;
@@ -19,9 +22,12 @@ exports.getProfile = (req, res) => {
 };
 
 exports.modifyProfile = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const token = req.cookies.access_token;
     const data = jwt.verify(token, config.secret);
-
     const user = new Standard({
         idUser: data.id,
         email: req.body.email,
@@ -39,6 +45,10 @@ exports.modifyProfile = (req, res) => {
 };
 
 exports.resetSelfPassword = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const token = req.cookies.access_token;
     const data = jwt.verify(token, config.secret);
     let hash = bcrypt.hashSync(req.body.password, 8);
@@ -80,7 +90,7 @@ exports.createPatient = (req, res) => {
 exports.findAllPatient = (req, res) => {
     const token = req.cookies.access_token;
     const data = jwt.verify(token, config.secret);
-    Standard.findAllPatient( data.id, (err, data) => {
+    Standard.findAllPatient(data.id, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
@@ -130,5 +140,27 @@ exports.modifyPatient = (req, res) => {
                     err.message || "Some error occurred while find the User."
             });
         else res.redirect("/standard");
+    });
+};
+
+exports.exportToCSW = (req, res) => {
+    const token = req.cookies.access_token;
+    const user = jwt.verify(token, config.secret);
+    const fields = ['idpatient', 'Surname', 'Name', 'idAlexa'];
+    const opts = {fields};
+
+    Standard.findAllPatient(user.id, (db_err, data) => {
+        if (db_err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while find the Patient."
+            });
+        else {
+            const parser = new Parser(opts);
+            const csv = parser.parse(data);
+            var filename = 'Patients';
+            res.set('Content-Disposition', ["attachment; filename=", filename, '.csv'].join(''));
+            res.end(csv);
+        }
     });
 };

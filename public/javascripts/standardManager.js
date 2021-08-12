@@ -51,8 +51,29 @@ $(function(){
                     resetSelfPasswordModal.reset();
                 });
                 $('.sendResetPassword').click(function() {
-                    if($("#id_Password").val().length>=5)
-                        $("#id_selfResetPasswordForm").attr('action', '/standard/resetPassword').submit();
+                    if($("#id_Password").val().length>=5){
+                        var formData = $('#id_selfResetPasswordForm').serializeArray().reduce(function(obj, item) {
+                            obj[item.name] = item.value;
+                            return obj;
+                        }, {});
+                        var settings = {
+                            "url": "/standard/resetPassword",
+                            "method": "POST",
+                            "timeout": 0,
+                            "headers": {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            "data": {
+                                "password": formData.password,
+                            },error: function () {
+                                alert("Error, check all form fields and retry");
+                            },success: function (response) {
+                                pageOrchestrator.refresh();
+                                patientTable.update();
+                            }
+                        };
+                        $.ajax(settings);
+                    }
                     else{
                         alert("The password has to be at least 5 characters long");
                         return false;
@@ -135,7 +156,31 @@ $(function(){
                     addPatientModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyPatientForm").attr('action', '/standard/patient/' + _idPatient).validate().submit();
+                    var formData = $('#id_modifyPatientForm').serializeArray().reduce(function(obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+                    var settings = {
+                        "url": "/standard/patient/"+ _idPatient,
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        "data": {
+                            "idAlexa": formData.idAlexa,
+                            "name": formData.name,
+                            "surname": formData.surname,
+                        },
+                        error: function () {
+                            alert("Error, check all form fields and retry");
+                        },
+                        success: function () {
+                            pageOrchestrator.refresh();
+                            patientTable.update();
+                        }
+                    };
+                    $.ajax(settings);
                 });
             })
         }
@@ -345,12 +390,14 @@ $(function(){
                             "message": formData.message,
                             "cron": cron,
                             "cronString": cronString
+                        },error: function () {
+                            alert("Error, check all form fields and retry");
+                        },success: function (response) {
+                            pageOrchestrator.refresh();
+                            alarmTable.update(response.idPatient);
                         }
                     };
-                    $.ajax(settings).done(function (response) {
-                        pageOrchestrator.refresh();
-                        alarmTable.update(response.idPatient);
-                    });
+                    $.ajax(settings);
                 });
 
                 $('.modalClose').click(function() {

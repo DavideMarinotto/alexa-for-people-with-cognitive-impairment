@@ -1,14 +1,13 @@
 const Schedule = require("../models/schedule.model");
-const Standard = require("../models/admin.model");
+const { validationResult } = require('express-validator');
+const {Parser} = require('json2csv');
 
 exports.createAlarm = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
-
+    console.log(req.body.message);
     const alarm = new Schedule({
         idPatient: req.body.idPatient,
         message: req.body.message,
@@ -59,6 +58,10 @@ exports.deleteAlarmById = (req, res) => {
 };
 
 exports.modifyAlarm = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const alarm = new Schedule({
         idAlarm: req.params.idAlarm,
         message: req.body.message,
