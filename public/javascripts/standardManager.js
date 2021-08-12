@@ -54,7 +54,7 @@ $(function(){
                     if($("#id_Password").val().length>=5)
                         $("#id_selfResetPasswordForm").attr('action', '/standard/resetPassword').submit();
                     else{
-                        alert("La password deve contenere almeno 5 caratteri");
+                        alert("The password has to be at least 5 characters long");
                         return false;
                     }
                 });
@@ -242,7 +242,7 @@ $(function(){
                         return obj;
                     }, {});
                     if(formData.message === "" || formData.message === "undefined"){
-                        alert("Il campo Message è obbligatorio.");
+                        alert("Field 'Message' is mandatory.");
                         formData.message.focus();
                         return false;
                     }
@@ -277,40 +277,40 @@ $(function(){
                     }
                     var patternVal = $('#id_pattern').val();
                     if (patternVal === 'xMins' && (formData.xMins<1 || formData.xMins>59)){
-                        alert("Il campo xMins deve essere compreso tra 1 e 59.");
+                        alert("Field 'Minutes' must be between 1 and 59.");
                         formData.xMins.focus();
                         return false;
                     }
                     if (patternVal === 'xHours' && (formData.xHours<1 || formData.xHours>23)){
-                        alert("Il campo xHours deve essere compreso tra 1 e 23.");
+                        alert("Field 'Hours' must be between 1 and 23.");
                         formData.xHours.focus();
                         return false;
                     }
                     if (patternVal === 'everyDayAtX'){
                         console.log(formData);
                         if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
-                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            alert("Field 'Hours' must be between 0 and 23.");
                             formData.xHours.focus();
                             return false;
                         }
                         else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
-                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            alert("Field 'Minutes' must be between 0 and 59.");
                             formData.xMins.focus();
                             return false;
                         }
                     }
                     if (patternVal === 'onDayAtX'){
                         if(days.length === 0){
-                            alert("Deve essere selezionato almeno un giorno");
+                            alert("At least one day has to be checked");
                             return false;
                         }
                         else if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
-                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            alert("Field 'Hours' must be between 0 and 23.");
                             formData.xHours.focus();
                             return false;
                         }
                         else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
-                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            alert("Field 'Minutes' must be between 0 and 59.");
                             formData.xMins.focus();
                             return false;
                         }
@@ -420,7 +420,7 @@ $(function(){
                         return obj;
                     }, {});
                     if(formData.message === "" || formData.message === "undefined"){
-                        alert("Il campo Message è obbligatorio.");
+                        alert("Field 'Message' is mandatory.");
                         formData.message.focus();
                         return false;
                     }
@@ -455,39 +455,39 @@ $(function(){
                     }
                     var patternVal = $('#id_pattern').val();
                     if (patternVal === 'xMins' && (formData.xMins<1 || formData.xMins>59)){
-                        alert("Il campo xMins deve essere compreso tra 1 e 59.");
+                        alert("Field 'Minutes' must be between 1 and 59.");
                         formData.xMins.focus();
                         return false;
                     }
                     if (patternVal === 'xHours' && (formData.xHours<1 || formData.xHours>23)){
-                        alert("Il campo xHours deve essere compreso tra 1 e 23.");
+                        alert("Field 'Hours' must be between 1 and 23.");
                         formData.xHours.focus();
                         return false;
                     }
                     if (patternVal === 'everyDayAtX'){
                         if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
-                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            alert("Field 'Hours' must be between 0 and 23.");
                             formData.xHours.focus();
                             return false;
                         }
                         else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
-                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            alert("Field 'Minutes' must be between 0 and 59.");
                             formData.xMins.focus();
                             return false;
                         }
                     }
                     if (patternVal === 'onDayAtX'){
                         if(days.length === 0){
-                            alert("Deve essere selezionato almeno un giorno");
+                            alert("At least one day has to be checked");
                             return false;
                         }
                         else if(formData.xHours<0 || formData.xHours>23 || formData.xHours === ""){
-                            alert("Il campo Hours deve essere compreso tra 0 e 23.");
+                            alert("Field 'Hours' must be between 0 and 23.");
                             formData.xHours.focus();
                             return false;
                         }
                         else if(formData.xMins<0 || formData.xMins>59 || formData.xMins === ""){
-                            alert("Il campo Minutes deve essere compreso tra 0 e 59.");
+                            alert("Field 'Minutes' must be between 0 and 59.");
                             formData.xMins.focus();
                             return false;
                         }

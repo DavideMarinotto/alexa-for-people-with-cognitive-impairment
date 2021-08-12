@@ -3,6 +3,8 @@ const Standard = require("../models/standard.model");
 var bcrypt = require("bcryptjs");
 var jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
+const {Parser} = require('json2csv');
+const {validationResult} = require('express-validator');
 
 
 exports.getProfile = (req, res) => {
@@ -20,6 +22,10 @@ exports.getProfile = (req, res) => {
 };
 
 exports.modifyProfile = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const token = req.cookies.access_token;
     const data = jwt.verify(token, config.secret);
 
@@ -33,13 +39,17 @@ exports.modifyProfile = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the New Patient."
+                    err.message || "Some error occurred while editing your profile."
             });
         else res.redirect("/admin");
     });
 };
 
 exports.resetSelfPassword = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const token = req.cookies.access_token;
     const data = jwt.verify(token, config.secret);
     let hash = bcrypt.hashSync(req.body.password, 8);
@@ -47,7 +57,7 @@ exports.resetSelfPassword = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while resetting your password."
             });
         else res.redirect("/admin");
     });
@@ -82,7 +92,7 @@ exports.findAllUsers = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find Users."
+                    err.message || "Some error occurred while finding all the Users."
             });
         else res.send(data);
     });
@@ -94,7 +104,7 @@ exports.findUserById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while finding the User."
             });
         else res.send(data);
     });
@@ -105,25 +115,33 @@ exports.deleteUserById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while deleting the User."
             });
         else res.send(data);
     });
 };
 
 exports.resetPassword = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     let hash = bcrypt.hashSync(req.body.password, 8);
     Admin.resetPassword({idUser: req.params.idUser, password: hash}, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while resetting the User's password."
             });
         else res.redirect("/admin");
     });
 };
 
 exports.modifyUser = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const user = new Standard({
         idUser: req.params.idUser,
         email: req.body.email,
@@ -134,7 +152,7 @@ exports.modifyUser = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while editing the User's infos."
             });
         else res.redirect("/admin");
     });
@@ -146,4 +164,26 @@ exports.loginAsStandard = (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
         }).status(200).send("/standard");
+};
+
+exports.exportToCSW = (req, res) => {
+    /*const token = req.cookies.access_token;
+    const user = jwt.verify(token, config.secret);*/
+    const fields = ['idUser', 'Surname', 'Name', 'Mail'];
+    const opts = {fields};
+
+    Admin.findAllUsers( (db_err, data) => {
+        if (db_err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while exporting to CSW."
+            });
+        else {
+            const parser = new Parser(opts);
+            const csv = parser.parse(data);
+            var filename = 'StandardUsers';
+            res.set('Content-Disposition', ["attachment; filename=", filename, '.csv'].join(''));
+            res.end(csv);
+        }
+    });
 };

@@ -19,7 +19,7 @@ exports.createAlarm = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the New User."
+                    err.message || "Some error occurred while creating the New Alarm."
             });
         else res.send(data);
     });
@@ -30,7 +30,7 @@ exports.findAllPatientAlarms = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while finding all the patient's alarms."
             });
         else res.send(data);
     });
@@ -41,7 +41,7 @@ exports.findAlarmById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while finding the Alarm."
             });
         else res.send(data);
     });
@@ -52,7 +52,7 @@ exports.deleteAlarmById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while deleting the Alarm."
             });
         else res.send(data);
     });
@@ -69,8 +69,28 @@ exports.modifyAlarm = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the User."
+                    err.message || "Some error occurred while editing the Alarm."
             });
         res.send(data);
+    });
+};
+
+exports.exportToCSW = (req, res) => {
+    const fields = ['idAlarm', 'message', 'cronString', 'idPatient', 'Surname', 'Name'];
+    const opts = {fields};
+
+    Schedule.findAllAlarms((db_err, data) => {
+        if (db_err)
+            res.status(500).send({
+                message:
+                    err.message || "Some error occurred while exporting to CSW."
+            });
+        else {
+            const parser = new Parser(opts);
+            const csv = parser.parse(data);
+            var filename = 'Alarms';
+            res.set('Content-Disposition', ["attachment; filename=", filename, '.csv'].join(''));
+            res.end(csv);
+        }
     });
 };

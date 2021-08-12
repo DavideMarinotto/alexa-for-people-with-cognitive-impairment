@@ -23,8 +23,27 @@ router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);
 router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);
 router.delete('/user/:idUser',[authJwt.isAdmin],admin.deleteUserById);
-router.post('/user/:idUser/reset',[authJwt.isAdmin],admin.resetPassword);
-router.post('/user/:idUser/modify',[authJwt.isAdmin],admin.modifyUser);
-router.post('/resetPassword',[authJwt.isAdmin],admin.resetSelfPassword);
+router.post('/user/:idUser/reset',
+    [
+        body('password').isLength({ min: 5 }),
+        authJwt.isAdmin
+    ],
+    admin.resetPassword);
+router.post('/user/:idUser/modify',
+    [
+        body('email').isEmail(),
+        body('surname').trim().escape().not().isEmpty(),
+        body('name').trim().escape().not().isEmpty(),
+        authJwt.isAdmin
+    ],
+    admin.modifyUser
+);
+router.post('/resetPassword',
+    [
+        body('password').isLength({ min: 5 }),
+        authJwt.isAdmin
+    ],
+    admin.resetSelfPassword);
+router.get('/export',[authJwt.isAdmin],admin.exportToCSW);
 
 module.exports = router;

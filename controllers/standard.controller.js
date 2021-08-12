@@ -84,7 +84,7 @@ exports.findAllPatient = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find Patient."
+                    err.message || "Some error occurred while finding all Patients."
             });
         else res.send(data);
     });
@@ -95,7 +95,7 @@ exports.findPatientById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the Patient."
+                    err.message || "Some error occurred while finding the Patient."
             });
         else res.send(data);
     });
@@ -106,13 +106,17 @@ exports.deletePatientById = (req, res) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while find the Patient."
+                    err.message || "Some error occurred while deleting the Patient."
             });
         else res.send(data);
     });
 };
 
 exports.modifyPatient = (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const patient = new Patient({
         idpatient: req.params.idpatient,
         idAlexa: req.body.idAlexa,

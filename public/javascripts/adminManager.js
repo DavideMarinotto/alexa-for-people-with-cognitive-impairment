@@ -122,7 +122,31 @@ $(function(){
                     addUserModal.reset();
                 });
                 $('.sendModify').click(function() {
-                    $("#id_modifyUserForm").attr('action', '/admin/user/' + _idUser + '/modify').validate().submit();
+                    var formData = $('#id_modifyUserForm').serializeArray().reduce(function(obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+                    var settings = {
+                        "url": '/admin/user/' + _idUser + '/modify',
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        "data": {
+                            "email": formData.email,
+                            "name": formData.name,
+                            "surname": formData.surname,
+                        },
+                        error: function () {
+                            alert("Error, check all form fields and retry");
+                        },
+                        success: function () {
+                            pageOrchestrator.refresh();
+                            userTable.update();
+                        }
+                    };
+                    $.ajax(settings);
                 });
             })
         }
@@ -140,10 +164,33 @@ $(function(){
                     resetUserPasswordModal.reset();
                 });
                 $('.sendResetPassword').click(function() {
-                    if($("#id_Password").val().length>=5)
-                        $("#id_resetPasswordForm").attr('action', '/admin/user/' + _id + '/reset').submit();
+                    if($("#id_Password").val().length>=5){
+                        var formData = $('#id_resetPasswordForm').serializeArray().reduce(function(obj, item) {
+                            obj[item.name] = item.value;
+                            return obj;
+                        }, {});
+                        var settings = {
+                            "url": '/admin/user/' + _id + '/reset',
+                            "method": "POST",
+                            "timeout": 0,
+                            "headers": {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            "data": {
+                                "password": formData.password,
+                            },
+                            error: function () {
+                                alert("Error, check all form fields and retry");
+                            },
+                            success: function () {
+                                pageOrchestrator.refresh();
+                                userTable.update();
+                            }
+                        };
+                        $.ajax(settings);
+                    }
                     else{
-                        alert("La password deve contenere almeno 5 caratteri");
+                        alert("The password has to be at least 5 characters long");
                         return false;
                     }
                 });
@@ -163,10 +210,33 @@ $(function(){
                     resetSelfPasswordModal.reset();
                 });
                 $('.sendResetPassword').click(function() {
-                    if($("#id_Password").val().length>=5)
-                        $("#id_selfResetPasswordForm").attr('action', '/admin/resetPassword').submit();
+                    if($("#id_Password").val().length>=5) {
+                        var formData = $('#id_selfResetPasswordForm').serializeArray().reduce(function(obj, item) {
+                            obj[item.name] = item.value;
+                            return obj;
+                        }, {});
+                        var settings = {
+                            "url": '/admin/resetPassword',
+                            "method": "POST",
+                            "timeout": 0,
+                            "headers": {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            "data": {
+                                "password": formData.password,
+                            },
+                            error: function () {
+                                alert("Error, check all form fields and retry");
+                            },
+                            success: function () {
+                                pageOrchestrator.refresh();
+                                userTable.update();
+                            }
+                        };
+                        $.ajax(settings);
+                    }
                     else{
-                        alert("La password deve contenere almeno 5 caratteri");
+                        alert("The password has to be at least 5 characters long");
                         return false;
                     }
                 });
