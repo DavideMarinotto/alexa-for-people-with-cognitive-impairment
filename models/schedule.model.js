@@ -1,5 +1,7 @@
 const sql = require("./db.js");
 const schedule = require('node-schedule');
+var https = require("https");
+var alexaConfig = require("../config/alexa.config");
 
 // constructor
 const Schedule = function(schedule) {
@@ -94,10 +96,26 @@ Schedule.modifyAlarm = (alarm, result) => {
             });
         });
 };
+Schedule.callAlexa = (_message,_to) =>{
+    var body = JSON.stringify({
+        "notification": _message,
+        "accessCode": _to
+    });
+    https.request({
+        hostname: alexaConfig.hostname,
+        path: alexaConfig.path,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Content-Length": Buffer.byteLength(body)
+        }
+    }).end(body);
 
+}
 Schedule.addCron = (_uniqueName,_message,_to,_at) =>{
     const job = schedule.scheduleJob(_uniqueName,_at,function(){
         console.log('Send to '+_to+ " "+_message);
+        Schedule.callAlexa(_message,_to);
     });
 }
 
