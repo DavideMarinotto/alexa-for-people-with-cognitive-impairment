@@ -250,6 +250,14 @@ $(function(){
                 };
                 hider();
                 $('#id_sendNewAlarm').hide();
+                $('#id_type').change(function() {
+                    if ($(this).val() === 'None') {
+                        $('#id_sendNewAlarm').hide();
+                    }
+                    else if ($('#id_pattern').val() !== 'None'){
+                        $('#id_sendNewAlarm').show();
+                    }
+                });
                 $('#id_pattern').change(function() {
                     if ($(this).val() === 'None'){
                         hider();
@@ -258,26 +266,26 @@ $(function(){
                     if ($(this).val() === 'xMins'){
                         hider();
                         $("#id_xMins").show();
-                        $('#id_sendNewAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_sendNewAlarm').show();
 
                     }
                     if ($(this).val() === 'xHours'){
                         hider();
                         $("#id_xHours").show();
-                        $('#id_sendNewAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_sendNewAlarm').show();
                     }
                     if ($(this).val() === 'everyDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
-                        $('#id_sendNewAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_sendNewAlarm').show();
                     }
                     if ($(this).val() === 'onDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
                         $("#id_days").show();
-                        $('#id_sendNewAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_sendNewAlarm').show();
                     }
                 });
 
@@ -377,7 +385,7 @@ $(function(){
                         cronString = "Every "+ daysString.join() +" at "+ formData.xHours + " " + formData.xMins;
                         cron = formData.xMins + " " + formData.xHours +" * * " + days.join();
                     }
-
+                    var alarmType = $('#id_type').val();
                     var settings = {
                         "url": "schedule/alarms",
                         "method": "POST",
@@ -389,7 +397,8 @@ $(function(){
                             "idPatient": _id,
                             "message": formData.message,
                             "cron": cron,
-                            "cronString": cronString
+                            "cronString": cronString,
+                            "alarmType": alarmType
                         },error: function () {
                             alert("Error, check all form fields and retry");
                         },success: function (response) {
@@ -430,6 +439,14 @@ $(function(){
                 };
                 hider();
                 $('#id_modifyAlarm').hide();
+                $('#id_type').change(function() {
+                    if ($(this).val() === 'None') {
+                        $('#id_sendNewAlarm').hide();
+                    }
+                    else if ($('#id_pattern').val() !== 'None'){
+                        $('#id_sendNewAlarm').show();
+                    }
+                });
                 $('#id_pattern').change(function() {
                     if ($(this).val() === 'None'){
                         hider();
@@ -438,26 +455,26 @@ $(function(){
                     if ($(this).val() === 'xMins'){
                         hider();
                         $("#id_xMins").show();
-                        $('#id_modifyAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_modifyAlarm').show();
 
                     }
                     if ($(this).val() === 'xHours'){
                         hider();
                         $("#id_xHours").show();
-                        $('#id_modifyAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_modifyAlarm').show();
                     }
                     if ($(this).val() === 'everyDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
-                        $('#id_modifyAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_modifyAlarm').show();
                     }
                     if ($(this).val() === 'onDayAtX'){
                         hider();
                         $("#id_xMins").show();
                         $("#id_xHours").show();
                         $("#id_days").show();
-                        $('#id_modifyAlarm').show();
+                        if ($('#id_type').val() !== 'None') $('#id_modifyAlarm').show();
                     }
                 });
 
@@ -556,7 +573,7 @@ $(function(){
                         cronString = "Every "+ daysString.join() +" at "+ formData.xHours + " " + formData.xMins;
                         cron = formData.xMins + " " + formData.xHours +" * * " + days.join();
                     }
-
+                    var alarmType = $('#id_type').val();
                     var settings = {
                         "url": "schedule/alarm/"+ _idAlarm,
                         "method": "POST",
@@ -568,7 +585,8 @@ $(function(){
                             "idPatient": _idPatient,
                             "message": formData.message,
                             "cron": cron,
-                            "cronString": cronString
+                            "cronString": cronString,
+                            "alarmType": alarmType
                         }
                     };
                     $.ajax(settings).done(function (response) {

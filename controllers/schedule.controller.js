@@ -13,6 +13,7 @@ exports.createAlarm = (req, res) => {
         message: req.body.message,
         cron: req.body.cron,
         cronString: req.body.cronString,
+        alarmType: req.body.alarmType,
     });
     Schedule.createAlarm(alarm, (err, data) => {
         if (err)
@@ -67,6 +68,7 @@ exports.modifyAlarm = (req, res) => {
         message: req.body.message,
         cron: req.body.cron,
         cronString: req.body.cronString,
+        alarmType: req.body.alarmType,
     });
     Schedule.modifyAlarm(alarm, (err, data) => {
         if (err)
@@ -79,7 +81,7 @@ exports.modifyAlarm = (req, res) => {
 };
 
 exports.exportToCSW = (req, res) => {
-    const fields = ['idAlarm', 'message', 'cronString', 'idPatient', 'Surname', 'Name'];
+    const fields = ['idAlarm', 'message', 'cronString', 'alarmType', 'idPatient', 'Surname', 'Name'];
     const opts = {fields};
 
     Schedule.findAllAlarms((db_err, data) => {

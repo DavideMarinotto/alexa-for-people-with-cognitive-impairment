@@ -10,11 +10,12 @@ const Schedule = function(schedule) {
     this.message = schedule.message;
     this.cron = schedule.cron;
     this.cronString = schedule.cronString;
+    this.alarmType = schedule.alarmType;
 };
 
 Schedule.createAlarm = (newAlarm, result) => {
-    sql.query("insert into proginginf.calendar(message, cron, cronString, idPatient) values(?,?,?,?)",
-        [newAlarm.message,newAlarm.cron,newAlarm.cronString, newAlarm.idPatient], (err, res) => {
+    sql.query("insert into proginginf.calendar(message, cron, cronString, idPatient, alarmType) values(?,?,?,?,?)",
+        [newAlarm.message,newAlarm.cron,newAlarm.cronString, newAlarm.idPatient, newAlarm.alarmType], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -26,14 +27,14 @@ Schedule.createAlarm = (newAlarm, result) => {
                 result(err, null);
                 return;
             }
-            Schedule.addCron(res[0].idAlarm.toString(),newAlarm.message,res[0].idAlexa,newAlarm.cron);
+            Schedule.addCron(res[0].idAlarm.toString(),newAlarm.message,res[0].idAlexa,newAlarm.cron,newAlarm.alarmType);
             result(null, {...newAlarm });
         });
     });
 };
 
 Schedule.findAllPatientAlarms = (_idPatient, result) => {
-    sql.query("select message, cron, cronString, idAlarm from proginginf.calendar where idPatient=?", _idPatient,(err, res) => {
+    sql.query("select message, cron, cronString, alarmType, idAlarm from proginginf.calendar where idPatient=?", _idPatient,(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -43,7 +44,7 @@ Schedule.findAllPatientAlarms = (_idPatient, result) => {
         });
 };
 Schedule.findAllAlarms = result => {
-    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, P.idAlexa, C.idPatient, P.Surname, P.Name from proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
+    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, C.alarmType, P.idAlexa, C.idPatient, P.Surname, P.Name from proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -77,8 +78,8 @@ Schedule.deleteAlarmById = (_idAlarm, result) => {
 };
 
 Schedule.modifyAlarm = (alarm, result) => {
-    sql.query("update proginginf.calendar set message=?, cron=?, cronString=? where idAlarm=?",
-        [alarm.message,alarm.cron,alarm.cronString,alarm.idAlarm], (err, res) => {
+    sql.query("update proginginf.calendar set message=?, cron=?, cronString=?, alarmType=? where idAlarm=?",
+        [alarm.message,alarm.cron,alarm.cronString,alarm.alarmType,alarm.idAlarm], (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -91,14 +92,19 @@ Schedule.modifyAlarm = (alarm, result) => {
                     return;
                 }
                 Schedule.removeCron(alarm.idAlarm);
-                Schedule.addCron(alarm.idAlarm,alarm.message,secondRes[0].idAlexa,alarm.cron);
+                Schedule.addCron(alarm.idAlarm,alarm.message,secondRes[0].idAlexa,alarm.cron,alarm.alarmType);
                 result(null, secondRes);
             });
         });
 };
-Schedule.callAlexa = (_message,_to) =>{
+Schedule.callAlexa = (_message,_to,_type) =>{
+    var notification = _message;
+    if (_type === 'medical') notification = "Assicurati di " + _message;
+    else if (_type === 'activities') notification = "Che ne dici di " + _message;
+    else if (_type === 'reminder') notification = "Non dimenticarti di" + _message;
+    console.log(notification);
     var body = JSON.stringify({
-        "notification": _message,
+        "notification": notification,
         "accessCode": _to
     });
     https.request({
@@ -112,10 +118,10 @@ Schedule.callAlexa = (_message,_to) =>{
     }).end(body);
 
 }
-Schedule.addCron = (_uniqueName,_message,_to,_at) =>{
+Schedule.addCron = (_uniqueName,_message,_to,_at,_type) =>{
     const job = schedule.scheduleJob(_uniqueName,_at,function(){
         console.log('Send to '+_to+ " "+_message);
-        Schedule.callAlexa(_message,_to);
+        Schedule.callAlexa(_message,_to,_type);
     });
 }
 

@@ -26,7 +26,7 @@ app.use(function(req, res, next) {
 
 schedule.findAllAlarms((err, data) => {
     for(var element of data){
-        schedule.addCron(element.idAlarm.toString(), element.message, element.idAlexa, element.cron);}
+        schedule.addCron(element.idAlarm.toString(), element.message, element.idAlexa, element.cron, element.alarmType);}
 });
 
 app.use('/', indexRouter);

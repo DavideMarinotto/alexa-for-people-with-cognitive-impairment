@@ -11,7 +11,14 @@
                     <div class="form-group">
                         <label for="id_message">Message:</label><br>
                         <input class="form-control" type="text" id="id_message" name="message" ><br>
-                        <label for="pattern">Choose time pattern:</label><br>
+                        <label for="id_type">Choose alarm type:</label><br>
+                        <select id="id_type" name="type">
+                            <option value="None">Select an option</option>
+                            <option value="medical">Medical</option>
+                            <option value="activities">Activities</option>
+                            <option value="reminder">Reminder</option>
+                        </select><br>
+                        <label for="id_pattern">Choose time pattern:</label><br>
                         <select id="id_pattern" name="pattern">
                             <option value="None">Select an option</option>
                             <option value="xMins">Every [X] Minutes</option>
