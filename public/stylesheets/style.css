@@ -20,3 +20,6 @@
 .form-control-min-width{
   min-width: 320px;
 }
+.sortable{
+  cursor: pointer;
+}
