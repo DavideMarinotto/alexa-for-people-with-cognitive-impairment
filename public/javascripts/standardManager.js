@@ -441,10 +441,10 @@ $(function(){
                 $('#id_modifyAlarm').hide();
                 $('#id_type').change(function() {
                     if ($(this).val() === 'None') {
-                        $('#id_sendNewAlarm').hide();
+                        $('#id_modifyAlarm').hide();
                     }
                     else if ($('#id_pattern').val() !== 'None'){
-                        $('#id_sendNewAlarm').show();
+                        $('#id_modifyAlarm').show();
                     }
                 });
                 $('#id_pattern').change(function() {
