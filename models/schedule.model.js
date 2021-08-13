@@ -101,7 +101,7 @@ Schedule.callAlexa = (_message,_to,_type) =>{
     var notification = _message;
     if (_type === 'medical') notification = "Assicurati di " + _message;
     else if (_type === 'activities') notification = "Che ne dici di " + _message;
-    else if (_type === 'reminder') notification = "Non dimenticarti di" + _message;
+    else if (_type === 'reminder') notification = "Non dimenticarti di " + _message;
     console.log(notification);
     var body = JSON.stringify({
         "notification": notification,
