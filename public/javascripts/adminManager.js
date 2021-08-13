@@ -57,6 +57,9 @@ $(function(){
                 $('.removeUserBtn').click(function() {
                     userTable.deleteUser( $(this).parent().parent().parent().attr("idUser") );
                 });
+                $('#id_exportBtn').click(function() {
+                    window.location = "/admin/export";
+                });
                 $('.modifyUserBtn').click(function() {
                     modifyUserModal.update( $(this).parent().parent().parent().attr("idUser") );
                 });

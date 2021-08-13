@@ -100,6 +100,9 @@ $(function(){
                 $('#id_addPatientBtn').click(function() {
                     addPatientModal.show();
                 });
+                $('#id_exportBtn').click(function() {
+                    window.location = "/standard/export";
+                });
                 $('.removePatientBtn').click(function() {
                     patientTable.deleteUser( $(this).parent().parent().parent().attr("idpatient") );
                 });
@@ -209,6 +212,9 @@ $(function(){
                 $('#patientTable').append(data);
                 $('#id_addAlarmBtn').click(function() {
                     addAlarmModal.show(self.idPatient);
+                });
+                $('#id_exportBtn').click(function() {
+                    window.location = "/schedule/export";
                 });
                 $('#id_backToPatientBtn').click(function() {
                     pageOrchestrator.refresh();
