@@ -35,13 +35,26 @@ exports.modifyProfile = (req, res) => {
         name: req.body.name,
         surname: req.body.surname,
     });
-    Admin.modifyProfile(user, (err, data) => {
+    Admin.checkSelfMail(user, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while editing your profile."
+                    err.message || "Some error occurred while creating the New User."
             });
-        else res.redirect("/admin");
+
+        else if (data.length !== 0){
+            res.status(403).send({ message: "Mail already taken." });
+        }
+        else {
+            Admin.modifyProfile(user, (err, data) => {
+                if (err)
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while editing your profile."
+                    });
+                else res.redirect("/admin");
+            });
+        }
     });
 };
 

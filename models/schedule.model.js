@@ -102,7 +102,7 @@ Schedule.callAlexa = (_message,_to,_type) =>{
     if (_type === 'medical') notification = "Assicurati di " + _message;
     else if (_type === 'activities') notification = "Che ne dici di " + _message;
     else if (_type === 'reminder') notification = "Non dimenticarti di " + _message;
-    console.log(notification);
+    //console.log(notification);
     var body = JSON.stringify({
         "notification": notification,
         "accessCode": _to
@@ -120,7 +120,7 @@ Schedule.callAlexa = (_message,_to,_type) =>{
 }
 Schedule.addCron = (_uniqueName,_message,_to,_at,_type) =>{
     const job = schedule.scheduleJob(_uniqueName,_at,function(){
-        console.log('Send to '+_to+ " "+_message);
+        //console.log('Send to '+_to+ " "+_message);
         Schedule.callAlexa(_message,_to,_type);
     });
 }

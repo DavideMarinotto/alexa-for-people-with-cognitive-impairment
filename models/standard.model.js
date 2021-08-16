@@ -1,4 +1,5 @@
 const sql = require("./db.js");
+const schedule = require("./schedule.model.js");
 
 // constructor
 const Standard = function(standard) {
@@ -77,6 +78,7 @@ Standard.findPatientById = (_idpatient, result) => {
 };
 
 Standard.deletePatientById = (_idpatient, result) => {
+    Standard.deletePatientCrons(_idpatient);
     sql.query("delete from proginginf.patient where idpatient=?",_idpatient, (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -86,6 +88,18 @@ Standard.deletePatientById = (_idpatient, result) => {
         result(null, res);
     });
 };
+
+Standard.deletePatientCrons = (_idPatient) => {
+    sql.query("select idAlarm from proginginf.calendar where idPatient=?", _idPatient, (err,res) => {
+        if (err) {
+            console.log("error: ", err);
+            return;
+        }
+        for (var i = 0; i < res.length; i++){
+            schedule.removeCron(res[i].idAlarm);
+        }
+    });
+}
 
 Standard.modifyPatient = (patient, result) => {
     sql.query("update proginginf.patient set Surname=?, Name=?, idAlexa=? where idpatient=?",

@@ -19,7 +19,14 @@ router.get('/', [authJwt.isAdmin],function(req, res, next) {
   res.sendFile(path.resolve('public/admin.html'));
 });
 router.get('/profile',[authJwt.isAdmin],admin.getProfile);
-router.post('/profile',[authJwt.isAdmin],admin.modifyProfile);
+router.post('/profile',
+    [
+        body('email').isEmail(),
+        body('surname').trim().escape().not().isEmpty(),
+        body('name').trim().escape().not().isEmpty(),
+        authJwt.isAdmin
+    ],
+    admin.modifyProfile);
 router.get('/standard-login/:idUser',[authJwt.isAdmin],admin.loginAsStandard);
 router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);

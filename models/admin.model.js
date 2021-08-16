@@ -1,4 +1,5 @@
 const sql = require("./db.js");
+const schedule = require("./schedule.model.js");
 
 // constructor
 const Admin = function(admin) {
@@ -97,5 +98,30 @@ Admin.modifyUser = (user, result) => {
             result(null, res);
         });
 };
+
+Admin.checkUniqueMail = (_mail, result) => {
+    sql.query("select * from proginginf.user where Mail=? and Mail in (select Mail from proginginf.user)",
+        _mail, (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        });
+};
+
+Admin.checkSelfMail = (user, result) => {
+    //console.log(user);
+    sql.query("select * from proginginf.user where Mail=? and Mail in (select Mail from proginginf.user where idUser not in (select idUser from proginginf.user where idUser=?))",
+        [user.email, user.idUser], (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        });
+}
 
 module.exports = Admin;
