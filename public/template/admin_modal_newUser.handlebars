@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="admin/createNewUser" id="id_newUserForm" method="post">
+                <form action="#" id="id_newUserForm" method="post">
                     <div class="form-group">
                         <label for="Name">Name:</label><br>
                         <input class="form-control" type="text" id="id_Name" name="name" required><br>
@@ -18,11 +18,12 @@
                         <label for="Password">Password:</label><br>
                         <input class="form-control" type="password" id="id_Password" name="password" minlength="5" required><br>
                     </div>
+                </form>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-user-plus"></i>  Create New User</button>
+                        <button class="btn btn-primary" id="id_createUserBtn"><i class="fas fa-user-plus"></i>  Create New User</button>
                         <button class="btn btn-secondary modalClose"> Cancel </button>
                     </div>
-                </form>
+
             </div>
 
         </div>

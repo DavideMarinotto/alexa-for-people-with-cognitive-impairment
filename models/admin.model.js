@@ -66,7 +66,12 @@ Admin.findUserById = (_idUser, result) => {
 };
 
 Admin.deleteUserById = (_idUser, result) => {
+    schedule.removeAllCron();
     sql.query("delete from proginginf.user where idUser=?",_idUser, (err, res) => {
+        schedule.findAllAlarms((err, data) => {
+            for(var element of data){
+                schedule.addCron(element.idAlarm.toString(), element.message, element.idAlexa, element.cron, element.alarmType);}
+        });
         if (err) {
             console.log("error: ", err);
             result(err, null);

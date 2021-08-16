@@ -132,4 +132,9 @@ Schedule.removeCron = (_id) =>{
         }
 }
 
+Schedule.removeAllCron = () =>{
+    let all_job = schedule.scheduledJobs;
+    for (const job in all_job) schedule.cancelJob(job);
+}
+
 module.exports = Schedule;

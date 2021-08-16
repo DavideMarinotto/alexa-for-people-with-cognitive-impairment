@@ -77,26 +77,36 @@ exports.resetSelfPassword = (req, res) => {
 };
 
 exports.createUser = (req, res) => {
-    // Validate request
-    if (!req.body) {
-        res.status(400).send({
-            message: "Content can not be empty!"
-        });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
     }
     let hash = bcrypt.hashSync(req.body.password, 8);
-    const user = new Standard({
-        email: req.body.email,
-        name: req.body.name,
-        surname: req.body.surname,
-    });
-    user.password = hash;
-    Admin.createUser(user, (err, data) => {
+    Admin.checkUniqueMail(req.body.email, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
                     err.message || "Some error occurred while creating the New User."
             });
-        else res.redirect("/admin");
+
+        else if (data.length !== 0){
+            res.status(403).send({ message: "Mail already exist." });
+        }
+        else {
+            const user = new Standard({
+                email: req.body.email,
+                name: req.body.name,
+                surname: req.body.surname,
+            });
+            user.password = hash;
+            Admin.createUser(user, (err, data) => {
+                if (err)
+                    res.status(500).send({ message:
+                            err.message || "Some error occurred while creating the New User."
+                    });
+                else res.redirect("/admin");
+            });
+        }
     });
 };
 
@@ -161,13 +171,25 @@ exports.modifyUser = (req, res) => {
         name: req.body.name,
         surname: req.body.surname,
     });
-    Admin.modifyUser(user, (err, data) => {
+    Admin.checkSelfMail(user, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while editing the User's infos."
+                    err.message || "Some error occurred while creating the New User."
             });
-        else res.redirect("/admin");
+
+        else if (data.length !== 0) {
+            res.status(403).send({message: "Mail already exist."});
+        } else {
+            Admin.modifyUser(user, (err, data) => {
+                if (err)
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while editing the User's infos."
+                    });
+                else res.redirect("/admin");
+            });
+        }
     });
 };
 

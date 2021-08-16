@@ -28,7 +28,15 @@ router.post('/profile',
     ],
     admin.modifyProfile);
 router.get('/standard-login/:idUser',[authJwt.isAdmin],admin.loginAsStandard);
-router.post('/createNewUser',[authJwt.isAdmin],admin.createUser);
+router.post('/createNewUser',
+    [
+        body('email').isEmail(),
+        body('surname').trim().escape().not().isEmpty(),
+        body('name').trim().escape().not().isEmpty(),
+        body('password').not().isEmpty(),
+        authJwt.isAdmin
+    ]
+    ,admin.createUser);
 router.get('/list',[authJwt.isAdmin],admin.findAllUsers);
 router.get('/user/:idUser',[authJwt.isAdmin],admin.findUserById);
 router.delete('/user/:idUser',[authJwt.isAdmin],admin.deleteUserById);
