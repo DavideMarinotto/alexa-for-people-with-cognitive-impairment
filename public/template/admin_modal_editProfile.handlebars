@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="admin/profile" id="id_editProfileForm" method="post">
+                <form action="#" id="id_editProfileForm" method="post">
                     <div class="form-group">
                         <label for="Name">Name:</label><br>
                         <input class="form-control" type="text" id="id_Name" name="name" value="{{Name}}" required><br>
@@ -16,12 +16,12 @@
                         <label for="Mail">Mail:</label><br>
                         <input class="form-control" type="email" id="id_Mail" name="email" value="{{Mail}}" required><br>
                     </div>
+                </form>
                     <div class="modal-footer">
                         <button class="btn btn-primary editProfileBtn"><i class="fas fa-user-edit"></i> Edit Profile</button>
                         <button class="btn btn-danger resetPwBtn"><i class="fas fa-unlock-alt"></i> Reset Password </button>
                         <button class="btn btn-secondary modalClose">Cancel</button>
                     </div>
-                </form>
             </div>
 
         </div>
