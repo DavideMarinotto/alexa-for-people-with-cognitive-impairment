@@ -1,3 +1,4 @@
+const { isValidCron } = require('cron-validator');
 const Schedule = require("../models/schedule.model");
 const { validationResult } = require('express-validator');
 const {Parser} = require('json2csv');
@@ -15,14 +16,18 @@ exports.createAlarm = (req, res) => {
         cronString: req.body.cronString,
         alarmType: req.body.alarmType,
     });
-    Schedule.createAlarm(alarm, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while creating the New Alarm."
-            });
-        else res.send(data);
-    });
+    if(isValidCron(alarm.cron)){
+        Schedule.createAlarm(alarm, (err, data) => {
+            if (err)
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the New Alarm."
+                });
+            else res.send(data);
+        });
+    } else {
+        return res.status(400).json({ errors: "Invalid cron" });
+    }
 };
 
 exports.findAllPatientAlarms = (req, res) => {
@@ -70,14 +75,18 @@ exports.modifyAlarm = (req, res) => {
         cronString: req.body.cronString,
         alarmType: req.body.alarmType,
     });
-    Schedule.modifyAlarm(alarm, (err, data) => {
-        if (err)
-            res.status(500).send({
-                message:
-                    err.message || "Some error occurred while editing the Alarm."
-            });
-        res.send(data);
-    });
+    if(isValidCron(alarm.cron)){
+        Schedule.modifyAlarm(alarm, (err, data) => {
+            if (err)
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while editing the Alarm."
+              });
+            res.send(data);
+        });
+    } else {
+        return res.status(400).json({ errors: "Invalid cron" });
+    }
 };
 
 exports.exportToCSW = (req, res) => {

@@ -622,12 +622,15 @@ $(function(){
                             "cron": cron,
                             "cronString": cronString,
                             "alarmType": alarmType
+                        },
+                        error: function () {
+                            alert("Error, check all form fields and retry");
+                        },success: function (response) {
+                            pageOrchestrator.refresh();
+                            alarmTable.update(response[0].idPatient);
                         }
                     };
-                    $.ajax(settings).done(function (response) {
-                        pageOrchestrator.refresh();
-                        alarmTable.update(response[0].idPatient);
-                    });
+                    $.ajax(settings);
                 });
 
                 $('.modalClose').click(function() {
