@@ -113,4 +113,17 @@ Standard.modifyPatient = (patient, result) => {
     });
 };
 
+Standard.checkSelfMail = (user, result) => {
+    //console.log(user);
+    sql.query("select * from proginginf.user where Mail=? and Mail in (select Mail from proginginf.user where idUser not in (select idUser from proginginf.user where idUser=?))",
+        [user.email, user.idUser], (err, res) => {
+            if (err) {
+                console.log("error: ", err);
+                result(err, null);
+                return;
+            }
+            result(null, res);
+        });
+}
+
 module.exports = Standard;

@@ -20,8 +20,10 @@ router.get('/', function(req, res, next) {
 router.get('/profile',[authJwt.isStandard],standard.getProfile);
 router.post('/profile',
     [
-    body('name').isLength({ min: 5 }),
-    authJwt.isStandard
+        body('email').isEmail(),
+        body('surname').trim().escape().not().isEmpty(),
+        body('name').trim().escape().not().isEmpty(),
+        authJwt.isStandard
         ],
     standard.modifyProfile);
 router.post('/resetPassword',

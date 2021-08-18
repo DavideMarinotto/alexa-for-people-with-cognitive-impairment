@@ -27,6 +27,35 @@ $(function(){
             console.log(_profileData);
             getTemplate( "standard_modal_editProfile",_profileData[0]).done(function(data){
                 $("#id_modalWindow").append(data).show();
+                $('.editProfileBtn').click(function() {
+                    var formData = $('#id_editProfileForm').serializeArray().reduce(function(obj, item) {
+                        obj[item.name] = item.value;
+                        return obj;
+                    }, {});
+                    var settings = {
+                        "url": '/standard/profile',
+                        "method": "POST",
+                        "timeout": 0,
+                        "headers": {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        "data": {
+                            "email": formData.email,
+                            "name": formData.name,
+                            "surname": formData.surname,
+                        },
+                        error: function (response) {
+                            if (response.responseJSON.message === undefined)
+                                alert("Error, check all form fields and retry");
+                            else alert(response.responseJSON.message);
+                        },
+                        success: function () {
+                            pageOrchestrator.refresh();
+                            patientTable.update();
+                        }
+                    };
+                    $.ajax(settings);
+                });
                 $('.modalClose').click(function() {
                     myProfile.reset();
                 });

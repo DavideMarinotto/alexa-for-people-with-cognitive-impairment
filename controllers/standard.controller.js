@@ -34,13 +34,26 @@ exports.modifyProfile = (req, res) => {
         name: req.body.name,
         surname: req.body.surname,
     });
-    Standard.modifyProfile(user, (err, data) => {
+    Standard.checkSelfMail(user, (err, data) => {
         if (err)
             res.status(500).send({
                 message:
-                    err.message || "Some error occurred while creating the New Patient."
+                    err.message || "Some error occurred while creating the New User."
             });
-        else res.redirect("/standard");
+
+        else if (data.length !== 0){
+            res.status(403).send({ message: "Mail already taken." });
+        }
+        else {
+            Standard.modifyProfile(user, (err, data) => {
+                if (err)
+                    res.status(500).send({
+                        message:
+                            err.message || "Some error occurred while creating the New Patient."
+                    });
+                else res.redirect("/standard");
+            });
+        }
     });
 };
 
