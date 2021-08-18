@@ -14,14 +14,14 @@ const Schedule = function(schedule) {
 };
 
 Schedule.createAlarm = (newAlarm, result) => {
-    sql.query("insert into proginginf.calendar(message, cron, cronString, idPatient, alarmType) values(?,?,?,?,?)",
+    sql.query("insert into calendar(message, cron, cronString, idPatient, alarmType) values(?,?,?,?,?)",
         [newAlarm.message,newAlarm.cron,newAlarm.cronString, newAlarm.idPatient, newAlarm.alarmType], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
             return;
         }
-        sql.query("SELECT C.idAlarm, P.idAlexa FROM proginginf.calendar C, proginginf.patient P WHERE P.idpatient=C.idPatient AND idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
+        sql.query("SELECT C.idAlarm, P.idAlexa FROM calendar C, proginginf.patient P WHERE P.idpatient=C.idPatient AND idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -34,7 +34,7 @@ Schedule.createAlarm = (newAlarm, result) => {
 };
 
 Schedule.findAllPatientAlarms = (_idPatient, result) => {
-    sql.query("select message, cron, cronString, alarmType, idAlarm from proginginf.calendar where idPatient=?", _idPatient,(err, res) => {
+    sql.query("select message, cron, cronString, alarmType, idAlarm from calendar where idPatient=?", _idPatient,(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -44,7 +44,7 @@ Schedule.findAllPatientAlarms = (_idPatient, result) => {
         });
 };
 Schedule.findAllAlarms = result => {
-    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, C.alarmType, P.idAlexa, C.idPatient, P.Surname, P.Name from proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
+    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, C.alarmType, P.idAlexa, C.idPatient, P.Surname, P.Name from calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -55,7 +55,7 @@ Schedule.findAllAlarms = result => {
 };
 
 Schedule.findAlarmById = (_idAlarm, result) => {
-    sql.query("select * from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
+    sql.query("select * from calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -67,7 +67,7 @@ Schedule.findAlarmById = (_idAlarm, result) => {
 
 Schedule.deleteAlarmById = (_idAlarm, result) => {
     Schedule.removeCron(_idAlarm);
-    sql.query("delete from proginginf.calendar where idAlarm=?",_idAlarm, (err, res) => {
+    sql.query("delete from calendar where idAlarm=?",_idAlarm, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -78,14 +78,14 @@ Schedule.deleteAlarmById = (_idAlarm, result) => {
 };
 
 Schedule.modifyAlarm = (alarm, result) => {
-    sql.query("update proginginf.calendar set message=?, cron=?, cronString=?, alarmType=? where idAlarm=?",
+    sql.query("update calendar set message=?, cron=?, cronString=?, alarmType=? where idAlarm=?",
         [alarm.message,alarm.cron,alarm.cronString,alarm.alarmType,alarm.idAlarm], (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
                 return;
             }
-            sql.query("SELECT C.idPatient, P.idAlexa FROM proginginf.calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient AND idAlarm=?", alarm.idAlarm, (err, secondRes) => {
+            sql.query("SELECT C.idPatient, P.idAlexa FROM calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient AND idAlarm=?", alarm.idAlarm, (err, secondRes) => {
                 if (err) {
                     console.log("error: ", err);
                     result(err, null);

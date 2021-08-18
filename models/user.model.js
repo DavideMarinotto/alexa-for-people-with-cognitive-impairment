@@ -11,7 +11,7 @@ const User = function(user) {
 };
 
 User.findUserByMail = (_mail, result) => {
-    sql.query("select * from proginginf.user where mail=?",_mail, (err, res) => {
+    sql.query("select * from user where mail=?",_mail, (err, res) => {
         if (err) {
             result(err, null);
             return;

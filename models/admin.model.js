@@ -10,7 +10,7 @@ const Admin = function(admin) {
 };
 
 Admin.getProfile = (_idUser, result) => {
-    sql.query("select idUser, Surname, Name, Mail from proginginf.user where idUser=?",_idUser, (err, res) => {
+    sql.query("select idUser, Surname, Name, Mail from user where idUser=?",_idUser, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -21,7 +21,7 @@ Admin.getProfile = (_idUser, result) => {
 };
 
 Admin.modifyProfile = (user, result) => {
-    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",[user.surname, user.name, user.email, user.idUser], (err, res) => {
+    sql.query("update user set Surname=?, Name=?, Mail=? where idUser=?",[user.surname, user.name, user.email, user.idUser], (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -32,7 +32,7 @@ Admin.modifyProfile = (user, result) => {
 };
 
 Admin.createUser = (newUser, result) => {
-    sql.query("insert into proginginf.user(Surname, Name, Mail, Password) values(?,?,?,?)",
+    sql.query("insert into user(Surname, Name, Mail, Password) values(?,?,?,?)",
         [newUser.surname,newUser.name,newUser.email, newUser.password], (err, res) => {
         if (err) {
             console.log("error: ", err);
@@ -44,7 +44,7 @@ Admin.createUser = (newUser, result) => {
 };
 
 Admin.findAllUsers = result => {
-    sql.query("select idUser, Surname, Name, Mail from proginginf.user where isAdmin=0", (err, res) => {
+    sql.query("select idUser, Surname, Name, Mail from user where isAdmin=0", (err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -55,7 +55,7 @@ Admin.findAllUsers = result => {
 };
 
 Admin.findUserById = (_idUser, result) => {
-    sql.query("select * from proginginf.user where idUser=?",_idUser, (err, res) => {
+    sql.query("select * from user where idUser=?",_idUser, (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -67,7 +67,7 @@ Admin.findUserById = (_idUser, result) => {
 
 Admin.deleteUserById = (_idUser, result) => {
     schedule.removeAllCron();
-    sql.query("delete from proginginf.user where idUser=?",_idUser, (err, res) => {
+    sql.query("delete from user where idUser=?",_idUser, (err, res) => {
         schedule.findAllAlarms((err, data) => {
             for(var element of data){
                 schedule.addCron(element.idAlarm.toString(), element.message, element.idAlexa, element.cron, element.alarmType);}
@@ -82,7 +82,7 @@ Admin.deleteUserById = (_idUser, result) => {
 };
 
 Admin.resetPassword = (user, result) => {
-    sql.query("update proginginf.user set Password=? where idUser=?", [user.password, user.idUser], (err, res) => {
+    sql.query("update user set Password=? where idUser=?", [user.password, user.idUser], (err, res) => {
        if (err) {
            console.log("error: ", err);
            result(err, null);
@@ -93,7 +93,7 @@ Admin.resetPassword = (user, result) => {
 };
 
 Admin.modifyUser = (user, result) => {
-    sql.query("update proginginf.user set Surname=?, Name=?, Mail=? where idUser=?",
+    sql.query("update user set Surname=?, Name=?, Mail=? where idUser=?",
         [user.surname,user.name,user.email, user.idUser], (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -105,7 +105,7 @@ Admin.modifyUser = (user, result) => {
 };
 
 Admin.checkUniqueMail = (_mail, result) => {
-    sql.query("select * from proginginf.user where Mail=? and Mail in (select Mail from proginginf.user)",
+    sql.query("select * from user where Mail=? and Mail in (select Mail from proginginf.user)",
         _mail, (err, res) => {
             if (err) {
                 console.log("error: ", err);
@@ -118,7 +118,7 @@ Admin.checkUniqueMail = (_mail, result) => {
 
 Admin.checkSelfMail = (user, result) => {
     //console.log(user);
-    sql.query("select * from proginginf.user where Mail=? and Mail in (select Mail from proginginf.user where idUser not in (select idUser from proginginf.user where idUser=?))",
+    sql.query("select * from user where Mail=? and Mail in (select Mail from proginginf.user where idUser not in (select idUser from proginginf.user where idUser=?))",
         [user.email, user.idUser], (err, res) => {
             if (err) {
                 console.log("error: ", err);
