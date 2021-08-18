@@ -13,6 +13,8 @@ var schedule = require("./models/schedule.model");
 
 var app = express();
 
+app.set('port', process.env.PORT);
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

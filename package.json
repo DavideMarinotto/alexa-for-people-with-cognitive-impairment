@@ -12,6 +12,7 @@
     "bcryptjs": "^2.4.3",
     "cookie-parser": "~1.4.4",
     "cron": "^1.8.2",
+    "cron-validator": "^1.2.1",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "express-validator": "^6.12.1",
