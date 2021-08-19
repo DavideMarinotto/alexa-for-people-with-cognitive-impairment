@@ -62,5 +62,5 @@ router.post('/resetPassword',
     ],
     admin.resetSelfPassword);
 router.get('/export',[authJwt.isAdmin],admin.exportToCSW);
-
+router.get('/time',[authJwt.isAdmin],admin.getTime);
 module.exports = router;
