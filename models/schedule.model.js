@@ -21,7 +21,7 @@ Schedule.createAlarm = (newAlarm, result) => {
             result(err, null);
             return;
         }
-        sql.query("SELECT C.idAlarm, P.idAlexa FROM calendar C, proginginf.patient P WHERE P.idpatient=C.idPatient AND idAlarm=(SELECT max(idAlarm) FROM proginginf.calendar)",(err, res) => {
+        sql.query("SELECT C.idAlarm, P.idAlexa FROM calendar C, patient P WHERE P.idpatient=C.idPatient AND idAlarm=(SELECT max(idAlarm) FROM calendar)",(err, res) => {
             if (err) {
                 console.log("error: ", err);
                 result(err, null);
@@ -44,7 +44,7 @@ Schedule.findAllPatientAlarms = (_idPatient, result) => {
         });
 };
 Schedule.findAllAlarms = result => {
-    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, C.alarmType, P.idAlexa, C.idPatient, P.Surname, P.Name from calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient", (err, res) => {
+    sql.query("select C.message, C.cron, C.cronString, C.idAlarm, C.alarmType, P.idAlexa, C.idPatient, P.Surname, P.Name from calendar C, patient P WHERE C.idPatient=P.idpatient", (err, res) => {
         if (err) {
             console.log("error: ", err);
             result(err, null);
@@ -85,7 +85,7 @@ Schedule.modifyAlarm = (alarm, result) => {
                 result(err, null);
                 return;
             }
-            sql.query("SELECT C.idPatient, P.idAlexa FROM calendar C, proginginf.patient P WHERE C.idPatient=P.idpatient AND idAlarm=?", alarm.idAlarm, (err, secondRes) => {
+            sql.query("SELECT C.idPatient, P.idAlexa FROM calendar C, patient P WHERE C.idPatient=P.idpatient AND idAlarm=?", alarm.idAlarm, (err, secondRes) => {
                 if (err) {
                     console.log("error: ", err);
                     result(err, null);
