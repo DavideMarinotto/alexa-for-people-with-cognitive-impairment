@@ -1,4 +1,5 @@
 var express = require('express');
+var favicon = require('serve-favicon')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -14,7 +15,7 @@ var schedule = require("./models/schedule.model");
 var app = express();
 
 app.set('port', process.env.PORT);
-
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
