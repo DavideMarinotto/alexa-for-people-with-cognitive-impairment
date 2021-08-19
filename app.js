@@ -13,8 +13,7 @@ var scheduleRouter = require('./routes/schedule.routes');
 var schedule = require("./models/schedule.model");
 
 var app = express();
-
-app.set('port', process.env.PORT);
+app.listen(process.env.PORT || 3000);
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.json());
