@@ -201,6 +201,19 @@ exports.loginAsStandard = (req, res) => {
         }).status(200).send("/standard");
 };
 
+exports.getTime = (req, res) =>{
+    let date_ob = new Date();
+    // current hours
+    let hours = date_ob.getHours();
+    // current minutes
+    let minutes = date_ob.getMinutes();
+    let data = {
+        "hours": hours,
+        "minutes":minutes
+    };
+    res.status(200).json(data);
+};
+
 exports.exportToCSW = (req, res) => {
     /*const token = req.cookies.access_token;
     const user = jwt.verify(token, config.secret);*/
